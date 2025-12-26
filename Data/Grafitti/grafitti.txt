@@ -1,130 +1,129 @@
-type,language
-Orin fell here.,munaerwyn
-Do not take the left path.,andros
-Dwarves suck written 8 feet up a wall.,grygr
-Who built this place?,tadrosi
-An arrow pointing to the right.,druvyk
-"Let it be known that I, Luip Salazom, screwed every barmaid in Traveler's Rest.",yagkuuna
-Kobold Pride,ka kolantani
-Don’t sleep!,zidatlan
-Do not take the right path.,gazat
-A crude drawing of an angry orc face.,
-"In tiny lettering: If you can read this, it’s already too late.",
-Jessedo R.I.P.,
-Sorry about your wall! placed near a hole in the wall.,
-She’s lying to you.,
-58 tally marks scratched with incredible neatness.,
-Here Lies Big Benson - Didn’t Bring His Ten Foot Pole And Paid The Price,
-Look behind you. Now!,
-A drawing of a treasure chest.,
-A drawing of an arrow pointing in some direction along with a symbol.,
-Don’t lose your head in blood.,
-The Fangs of Gawic killed eight undead here!,
-Watch the pit trap!,
-"On this day, Brumr Goldbeard killed ninety-three of his enemies.",
-Death comes on silent wings.,
-Abandon hope all ye who enter here.,
-A depiction of a monstrous face.,
-Welcome to hell.,
-KILL THEM WITH FIRE!,
-You don’t matter. Give up.,
-Here rests two good men -- Nissus and Camom. Respect their souls.,
-Only the penitent man shall pass ...,
-Beware of trappers!,
-There’s a safe room in the center. Left food and supplies.,
-Did I ever tell you the definition of insanity?,
-"Right, door, straight, right.",
-No hope for those who proceed forward.,
-OVERTHINKING IT.,
-You’re lucky someone already read these Explosive Runes.,
-The Council of the Crimson Wyvern looted this place.,
-Mind the gap!,
-Hahahahaha!,
-"Wash your boots, don’t leave any footprints behind.",
-This corner secured by the Mighty Woodchucks.,
-I am the last of us. Do not think ill of me but I cannot go on alone. Do not choose the black door if you wish to see sunlight again. Good luck.,
-Grall Stonebringer was here.,
-Tika isn’t dead. She’s with us.,
-Stick to the center halls. They’re safer.,
-Beware the rats!,
-A picture of a gelatinous cube eating a person.,
-Archmage Drachnar and his meat shields were here.,
-"Drawings of butts, each one from a different race.",
-They decide who lives and who dies.,
-Please step on me carved onto the surface of random rocks.,
-The answer to the riddle is --,
-I’ve forgotten my name.,
-A cartoonish picture of a dwarf running away from a rust monster.,
-Don’t ask about the price.,
-You cannot kill it with magic.,
-Your mother is a succubus!,
-100 gold to anyone who finds my sword.,
-Trouble reading this? Try Lothar’s Lights for all your torch and lantern needs.,
-"Here lies Gilbert, who said: The mushrooms clearly aren’t poisonous, that rat just ate some and it was fine. Look, I’ll show you.",
-"Green, Green, Red, Gray.",
-NONE OF US ARE SAFE!,
-This was all already written. You are being controlled. They know what you’re doing. We’re all just pawns in their little game.,
-The Great Necromage Vilicous and his coterie of foolishly moral companions were here.,
-Bloody scrawled writing say ‘The secret chamber has been opened.’,
-The skeletons are not dead.,
-You have to burn the rope!,
-None are so blind that they cannot see the darkness of this place.,
-"A scribbled map of the dungeon, with a big X in one room and directions to a treasure.",
-Tread not on the bones of mad men.,
-Joreth - I’ve gone back for her. Meet me at the Frog and Jester in Pennyworth Lane.,
-Death is the only exit!,
-NEVER TRUST AN ELF!,
-A large X on the ground.,
-You cannot get out!,
-Droop woz heer.,
-A drawing of a sword on fire.,
-BENEATH THE ALTAR.,
-The entrance sealed behind us. We are trapped.,
-Here lies Tom who claimed there was no way that door could be a mimic.,
-"Written in very tiny letters: ‘If you can read this, you can’t see the goblin sneaking up behind you.’",
-Don’t eat the mushrooms.,
-"Treat the dungeon with courtesy, and it will do the same.",
-r rouge died so I cant right this in yur theves speak,
-Corpses don’t like visitors!,
-I’d rather be at the Broken Spear.,
-IT HAS NO EYES.,
-We are the real monsters.,
-Secret door here!,
-Artival. Waited 3 days for you. Ran out of supplies. Moving on to the next level.,
-I’ll make your skeleton exit your meat.,
-There is a secret door somewhere on this passageway- I hope you have better luck finding it.,
-Let me in. I’m scared.,
-WHERE IS THE EXIT?,
-Do not open. written on a door.,
-"If you find my body, tell Matin I loved him.",
-A basic map of the crypt.,
-Bend the pin to reset the trap.,
-A lewd chalk drawing of a carcass crawler and a woman ,
-the S,
-Seek Belindina in Bywater for a good time ,
-head to ro room 9 ,
-there is no 3rd level,
-speak freind and enter,
-Grave Robbers!,
-You are tresspassing on the property of Deadshot. Violators will be killed on sight.,
-Is it worth it?,
-If i didn't do this someone else would have.,
-step on a crack... ,
-the trick is to not die,
-this cave has too much gold,
-"Dear Mother and Father, As I write this note, I find myself lost in the depths of this labyrinthine dungeon, grappling with the realization of how much I owe to you both. From the earliest days of my childhood, you have showered me with love, guidance, and unwavering support. Your sacrifices, your wisdom, and your boundless patience have shaped me into the person I am today. I am filled with deep regret as I reflect on my actions and choices that have led me to this perilous situation. I have not always heeded your counsel, nor have I shown the appreciation you so rightfully deserve. Instead, I have pursued my own desires with reckless abandon, often disregarding the lessons you tirelessly imparted upon me. Now, as I find myself navigating the shadows and uncertainties of this dungeon, I am reminded of the countless times you warned me against such recklessness. How I wish I had listened more attentively, how I wish I had taken your words to heart. In this moment of solitude and introspection, I am overwhelmed with gratitude for your unwavering love and support. You have been my rock, my guiding light, and my source of strength. I am truly blessed to have you as my parents, and I cannot express enough how deeply sorry I am for not always showing my gratitude and for not heeding your wise counsel. If by chance this note finds its way to you, know that I love you both more than words can convey. I promise to do everything in my power to find my way back to you, to embrace the lessons you have taught me, and to become the son you raised me to be. With all my love and eternal gratitude, Oren",
-"""Here lies Dave, who thought it was fine to eat the small green potato with legs.""",
-"A sketch of a stick-figure adventurer with the caption: ""Wanted: Dead or Alive.""",
-"""Beware the Gelatinous Cube! It's not an effective Jelly substitute.""",
-"A crude drawing of a dragon with a thought bubble saying, ""I'm just here for the gold, man.""",
-"""You call this a dungeon? I've seen scarier basements!""",
-"""If you can read this, congrats! You've outsmarted the traps... so far.""",
-"""Roses are red, violets are blue, I'm stuck in this dungeon, and so are you.""",
-"A doodle of a mimic disguised as a treasure chest, winking and holding a sign that says, ""Free Hugs!""",
-"""They're not stuck in here with me, I'm stuck in them with me! """,
-my body for a gold coin,
-"""If you're reading this, send help... and food.""",
-"A stick figure holding a flag with the message: ""Dungeon Delver's Union."" underneath a list of demands: Standarized Contract Line Items: To ensure minimum compensation, safety standards, and dispute resolution procedures. Standardization of Exploration Equipment Distribution: Including ropes, torches, lanterns, pickaxes, and shovels. First Aid Kits: Stocked with bandages, antiseptics, splints, and other medical supplies for emergencies. Funerary Expenses: sending of remains and belonging back to next of kin as well as  reasonable funerary expenses in accordance with longevity",
-"""Abandon hope. Embrace Paranoia.""",
-,
-"""To the creature who stole my socks: Return them please""",
+type
+Orin fell here.
+Do not take the left path.
+Dwarves suck written 8 feet up a wall.
+Who built this place?
+An arrow pointing to the right.
+"Let it be known that I, Luip Salazom, screwed every barmaid in Traveler's Rest."
+Kobold Pride
+Don’t sleep!
+Do not take the right path.
+A crude drawing of an angry orc face.
+"In tiny lettering: If you can read this, it’s already too late."
+Jessedo R.I.P.
+Sorry about your wall! placed near a hole in the wall.
+She’s lying to you.
+58 tally marks scratched with incredible neatness.
+Here Lies Big Benson - Didn’t Bring His Ten Foot Pole And Paid The Price
+Look behind you. Now!
+A drawing of a treasure chest.
+A drawing of an arrow pointing in some direction along with a symbol.
+Don’t lose your head in blood.
+The Fangs of Gawic killed eight undead here!
+Watch the pit trap!
+"On this day, Brumr Goldbeard killed ninety-three of his enemies."
+Death comes on silent wings.
+Abandon hope all ye who enter here.
+A depiction of a monstrous face.
+Welcome to hell.
+KILL THEM WITH FIRE!
+You don’t matter. Give up.
+Here rests two good men -- Nissus and Camom. Respect their souls.
+Only the penitent man shall pass ...
+Beware of trappers!
+There’s a safe room in the center. Left food and supplies.
+Did I ever tell you the definition of insanity?
+"Right, door, straight, right."
+No hope for those who proceed forward.
+OVERTHINKING IT.
+You’re lucky someone already read these Explosive Runes.
+The Council of the Crimson Wyvern looted this place.
+Mind the gap!
+Hahahahaha!
+"Wash your boots, don’t leave any footprints behind."
+This corner secured by the Mighty Woodchucks.
+I am the last of us. Do not think ill of me but I cannot go on alone. Do not choose the black door if you wish to see sunlight again. Good luck.
+Grall Stonebringer was here.
+Tika isn’t dead. She’s with us.
+Stick to the center halls. They’re safer.
+Beware the rats!
+A picture of a gelatinous cube eating a person.
+Archmage Drachnar and his meat shields were here.
+"Drawings of butts, each one from a different race."
+They decide who lives and who dies.
+Please step on me carved onto the surface of random rocks.
+The answer to the riddle is --
+I’ve forgotten my name.
+A cartoonish picture of a dwarf running away from a rust monster.
+Don’t ask about the price.
+You cannot kill it with magic.
+Your mother is a succubus!
+100 gold to anyone who finds my sword.
+Trouble reading this? Try Lothar’s Lights for all your torch and lantern needs.
+"Here lies Gilbert, who said: The mushrooms clearly aren’t poisonous, that rat just ate some and it was fine. Look, I’ll show you."
+"Green, Green, Red, Gray."
+NONE OF US ARE SAFE!
+This was all already written. You are being controlled. They know what you’re doing. We’re all just pawns in their little game.
+The Great Necromage Vilicous and his coterie of foolishly moral companions were here.
+Bloody scrawled writing say ‘The secret chamber has been opened.’
+The skeletons are not dead.
+You have to burn the rope!
+None are so blind that they cannot see the darkness of this place.
+"A scribbled map of the dungeon, with a big X in one room and directions to a treasure."
+Tread not on the bones of mad men.
+Joreth - I’ve gone back for her. Meet me at the Frog and Jester in Pennyworth Lane.
+Death is the only exit!
+NEVER TRUST AN ELF!
+A large X on the ground.
+You cannot get out!
+Droop woz heer.
+A drawing of a sword on fire.
+BENEATH THE ALTAR.
+The entrance sealed behind us. We are trapped.
+Here lies Tom who claimed there was no way that door could be a mimic.
+"Written in very tiny letters: ‘If you can read this, you can’t see the goblin sneaking up behind you.’"
+Don’t eat the mushrooms.
+"Treat the dungeon with courtesy, and it will do the same."
+r rouge died so I cant right this in yur theves speak
+Corpses don’t like visitors!
+I’d rather be at the Broken Spear.
+IT HAS NO EYES.
+We are the real monsters.
+Secret door here!
+Artival. Waited 3 days for you. Ran out of supplies. Moving on to the next level.
+I’ll make your skeleton exit your meat.
+There is a secret door somewhere on this passageway- I hope you have better luck finding it.
+Let me in. I’m scared.
+WHERE IS THE EXIT?
+Do not open. written on a door.
+"If you find my body, tell Matin I loved him."
+A basic map of the crypt.
+Bend the pin to reset the trap.
+A lewd chalk drawing of a carcass crawler and a woman
+the S
+Seek Belindina in Bywater for a good time
+head to ro room 9
+there is no 3rd level
+speak freind and enter
+Grave Robbers!
+You are tresspassing on the property of Deadshot. Violators will be killed on sight.
+Is it worth it?
+If i didn't do this someone else would have.
+step on a crack...
+the trick is to not die
+this cave has too much gold
+"Dear Mother and Father, As I write this note, I find myself lost in the depths of this labyrinthine dungeon, grappling with the realization of how much I owe to you both. From the earliest days of my childhood, you have showered me with love, guidance, and unwavering support. Your sacrifices, your wisdom, and your boundless patience have shaped me into the person I am today. I am filled with deep regret as I reflect on my actions and choices that have led me to this perilous situation. I have not always heeded your counsel, nor have I shown the appreciation you so rightfully deserve. Instead, I have pursued my own desires with reckless abandon, often disregarding the lessons you tirelessly imparted upon me. Now, as I find myself navigating the shadows and uncertainties of this dungeon, I am reminded of the countless times you warned me against such recklessness. How I wish I had listened more attentively, how I wish I had taken your words to heart. In this moment of solitude and introspection, I am overwhelmed with gratitude for your unwavering love and support. You have been my rock, my guiding light, and my source of strength. I am truly blessed to have you as my parents, and I cannot express enough how deeply sorry I am for not always showing my gratitude and for not heeding your wise counsel. If by chance this note finds its way to you, know that I love you both more than words can convey. I promise to do everything in my power to find my way back to you, to embrace the lessons you have taught me, and to become the son you raised me to be. With all my love and eternal gratitude, Oren"
+"""Here lies Dave, who thought it was fine to eat the small green potato with legs."""
+"A sketch of a stick-figure adventurer with the caption: ""Wanted: Dead or Alive."""
+"""Beware the Gelatinous Cube! It's not an effective Jelly substitute."""
+"A crude drawing of a dragon with a thought bubble saying, ""I'm just here for the gold, man."""
+"""You call this a dungeon? I've seen scarier basements!"""
+"""If you can read this, congrats! You've outsmarted the traps... so far."""
+"""Roses are red, violets are blue, I'm stuck in this dungeon, and so are you."""
+"A doodle of a mimic disguised as a treasure chest, winking and holding a sign that says, ""Free Hugs!"""
+"""They're not stuck in here with me, I'm stuck in them with me! """
+my body for a gold coin
+"""If you're reading this, send help... and food."""
+"A stick figure holding a flag with the message: ""Dungeon Delver's Union."" underneath a list of demands: Standarized Contract Line Items: To ensure minimum compensation, safety standards, and dispute resolution procedures. Standardization of Exploration Equipment Distribution: Including ropes, torches, lanterns, pickaxes, and shovels. First Aid Kits: Stocked with bandages, antiseptics, splints, and other medical supplies for emergencies. Funerary Expenses: sending of remains and belonging back to next of kin as well as  reasonable funerary expenses in accordance with longevity"
+"""Abandon hope. Embrace Paranoia."""
+"""To the creature who stole my socks: Return them please"""
