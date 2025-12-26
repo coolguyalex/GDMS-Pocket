@@ -6,6 +6,9 @@ porting of the Goblindoid Dungeon Mastering System for a handheld based on Ardui
 ## Concept: 
 I want to build a dungeon master's companion that effectively dives into folders until it hits txt files and then randomly picks entries from list. It is basically a random table holder and roller.  
 
+## future ideas 
+- add a little icon to be displayed for each of  the pages
+
 ## Hardware: 
 
 ### Component Table
@@ -23,11 +26,11 @@ I want to build a dungeon master's companion that effectively dives into folders
 ### Wiring: 
 
 #### Buttons
-| Button | Right Pin | Left Pin| 
-|---|---|---|
-| left | GND | D2 |
-| middle | GND | D3 |
-| eight | GND | D4 |
+| Button | Program Name | Right Pin | Left Pin| 
+|---|---|---|---|
+| left | B | GND | D2 |
+| middle | A | GND | D3 |
+| eight | X | GND | D4 |
 
 #### OLED SSD1306 
 
@@ -51,12 +54,31 @@ I want to build a dungeon master's companion that effectively dives into folders
 
 ## Software
 
-### Files structure and Functionality:
-I have a screenshot of the folder tree in visual studio code. 
+### Function Summary:
+GDMS performs two major functions:
+1. Navigates the file tree.
+2. It pulls a random entry from the txt files.
+Some of this functionality will need to be dyanmic in order to incorporate new user-uplaoded data.
 
-The basic idea is that the program performs two major functions
-1. it navigates the file tree and 
-2. it pulls a random entry from the txt files. 
+### Data 
+GDMS will only contain txt files arranged in a specific folder structure composed of a main directroy, page directory, sub-functions. Text files containing lists of entries may be contained in the page directory or in the sub-function directory. 
+
+### Folder Structure
+- Main directory: Folders are all held in a main directory: "Data"
+- Page directory: Each folder's name within the main directory will be used to generate the titles at the top of the pages in the interface. e.g. "names", "dice", "encounters". 
+- The function directory may contain two possible options: 
+    1) more folders  
+    2) the final txt files containing a list of entries. 
+
+### Functionality 
+- All user-facing data is held within the data folder. UI should begin within the data folder.
+- GDMS will dynamically assign the title of a page based on the names of folders held in the pages directory. e.g. "names", "dice", "encounters". 
+- Pages will contain eith er a list of tables which may be rolled or offer a single table to be rolled 
+    - users may advance to the next the page by hitting the A buttons and go page to the last page with the B button. 
+- Each page has two display possibilities:
+    - If the page directory only contains one text file then the page should simple allow to roll the relevant table by hitting the x button
+    - If the page directory contains further folders the page should display a list which the user may begin to navigate by hitting the x button 
+        - The may then switch selection by hitting the A button and chose which random table they want to roll by hitting the X button. Pressing the B button goes back a step
 
 
 ### Library Table
