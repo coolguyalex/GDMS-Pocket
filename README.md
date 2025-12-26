@@ -87,50 +87,52 @@ GDMS will only contain txt files arranged in a specific folder structure compose
 | SSD1306 OLED | U8g2 |  | olikraus | SSD1306 screen library with smaller RAM footprint for many sensors | 
 
 
-## AI generated Desciprtion
+## AI generated Description
 
 Functional Specification: SD-Based Random Table System (POC)
-Overview
+
+### Overview
 The system is a microcontroller-based Dungeon Master aid that reads plain text data from an SD card and displays randomly selected entries on a small screen. All interaction is driven by a simple category-based interface.
-Data Layout
-The SD card contains a top-level directory named /DATA.
-Inside /DATA, users may create one-level-deep category folders.
-Folder names define category/page names in the UI.
-No nested folders beyond this level are supported.
-Each category folder contains .txt files only.
-Each .txt file represents a random table with one entry per line.
+
+### Data Layout
+- The SD card contains a top-level directory named /DATA.
+- Inside /DATA, users may create one-level-deep category folders.
+    - Folder names define category/page names in the UI.
+    - No nested folders beyond this level are supported.
+- Each category folder contains .txt files only.
+- Each .txt file represents a random table with one entry per line.
+
 Example:
-/DATA
-  /NPC
-    names.txt
-    flaws.txt
-  /DICE
-    d20.txt
-    d100.txt
+    /DATA
+        /NPC
+            names.txt
+            flaws.txt
+        /DICE
+            d20.txt
+            d100.txt
 
-Startup / Discovery
-On boot (or user-triggered rescan), the system:
-Enumerates all immediate subfolders of /DATA.
-Stores their names as available Categories.
-No recursive directory traversal is performed beyond this level.
+### Startup / Discovery
+- On boot (or user-triggered rescan), the system:
+    1. Enumerates all immediate subfolders of /DATA.
+    2. Stores their names as available Categories.
+- No recursive directory traversal is performed beyond this level.
 
+### UI Behavior
+- Each Category corresponds to one folder under /DATA.
+- When a Category is selected:
+    - The system lists all .txt files in that folder.
+- The user scrolls and selects a file.
+- Upon selection:
+    - The system reads the file and displays one randomly selected line.
 
-UI Behavior
-Each Category corresponds to one folder under /DATA.
-When a Category is selected:
-The system lists all .txt files in that folder.
-The user scrolls and selects a file.
-Upon selection:
-The system reads the file and displays one randomly selected line.
+### Random Selection
+- Files are processed in a memory-efficient manner.
+- The system should avoid loading entire files into RAM.
+- Random selection is done by streaming line-by-line and selecting an entry using a lightweight algorithm.
 
-
-Random Selection
-Files are processed in a memory-efficient manner.
-The system should avoid loading entire files into RAM.
-Random selection is done by streaming line-by-line and selecting an entry using a lightweight algorithm.
-Constraints
-Target hardware is Arduino-class with limited RAM.
-SD access is via SPI.
-The system favors predictable behavior, low memory usage, and simple control flow.
-All content is read-only; no file modification or persistence is required.
+### Constraints
+- Target hardware is Arduino-class with limited RAM.
+- SD access is via SPI.
+- The system favors predictable behavior, low memory usage, and simple control flow.
+- All content is read-only; no file modification or persistence is required.
 
