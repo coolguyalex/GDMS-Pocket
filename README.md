@@ -33,7 +33,6 @@ I want to build a dungeon master's companion that effectively dives into folders
 | eight | X | GND | D4 |
 
 #### OLED SSD1306 
-
 | SSD1306 Pin | Board Pin |
 |-------------|-----------|
 | GND | GND |
@@ -57,18 +56,16 @@ I want to build a dungeon master's companion that effectively dives into folders
 ### Function Summary:
 GDMS performs two major functions:
 1. Navigates the file tree.
-2. It pulls a random entry from the txt files.
+2. Pulls a random entry from the txt files.
 Some of this functionality will need to be dyanmic in order to incorporate new user-uplaoded data.
 
 ### Data 
-GDMS will only contain txt files arranged in a specific folder structure composed of a main directroy, page directory, sub-functions. Text files containing lists of entries may be contained in the page directory or in the sub-function directory. 
+GDMS will only contain txt files arranged in a specific folder structure composed of a main directroy, page directory,  and text files containing lists of entries contained in the page directory. 
 
 ### Folder Structure
 - Main directory: Folders are all held in a main directory: "Data"
 - Page directory: Each folder's name within the main directory will be used to generate the titles at the top of the pages in the interface. e.g. "names", "dice", "encounters". 
-- The function directory may contain two possible options: 
-    1) more folders  
-    2) the final txt files containing a list of entries. 
+- The function directory contains txt files containing a list of entries. 
 
 ### Functionality 
 - All user-facing data is held within the data folder. UI should begin within the data folder.
@@ -82,10 +79,58 @@ GDMS will only contain txt files arranged in a specific folder structure compose
 
 
 ### Library Table
-
 | Relevant Device | Library Names | Include call | Author | Desciption |
 |-----------------|---------------|--------------|--------|------------|
 | IIC devices | Wire | <Wire.h> | Arduino ? | used for IIC work |
 | SSD1306 OLED | Adafruit SSD1306 | <Adafruit_SSD1306.h> |  Adafruit | OLED driver library for small screens | 
 | SSD1306 OLED | Adafruit GFX library | <Adafruit_GFX.h> | Adafruit | core graphics library for Adafruit displays| 
 | SSD1306 OLED | U8g2 |  | olikraus | SSD1306 screen library with smaller RAM footprint for many sensors | 
+
+
+## AI generated Desciprtion
+
+Functional Specification: SD-Based Random Table System (POC)
+Overview
+The system is a microcontroller-based Dungeon Master aid that reads plain text data from an SD card and displays randomly selected entries on a small screen. All interaction is driven by a simple category-based interface.
+Data Layout
+The SD card contains a top-level directory named /DATA.
+Inside /DATA, users may create one-level-deep category folders.
+Folder names define category/page names in the UI.
+No nested folders beyond this level are supported.
+Each category folder contains .txt files only.
+Each .txt file represents a random table with one entry per line.
+Example:
+/DATA
+  /NPC
+    names.txt
+    flaws.txt
+  /DICE
+    d20.txt
+    d100.txt
+
+Startup / Discovery
+On boot (or user-triggered rescan), the system:
+Enumerates all immediate subfolders of /DATA.
+Stores their names as available Categories.
+No recursive directory traversal is performed beyond this level.
+
+
+UI Behavior
+Each Category corresponds to one folder under /DATA.
+When a Category is selected:
+The system lists all .txt files in that folder.
+The user scrolls and selects a file.
+Upon selection:
+The system reads the file and displays one randomly selected line.
+
+
+Random Selection
+Files are processed in a memory-efficient manner.
+The system should avoid loading entire files into RAM.
+Random selection is done by streaming line-by-line and selecting an entry using a lightweight algorithm.
+Constraints
+Target hardware is Arduino-class with limited RAM.
+SD access is via SPI.
+The system favors predictable behavior, low memory usage, and simple control flow.
+All content is read-only; no file modification or persistence is required.
+
