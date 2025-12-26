@@ -38,6 +38,17 @@ I want to build a dungeon master's companion that effectively dives into folders
 | SCL | A5 |
 | SDA | A4 |
 
+#### WWZMDiB SD Card reader
+| SSD1306 Pin SD Card Reader | Board Pin |
+|-------------|-----------|
+| CS          | D5        |
+| SCK         | D13       |
+| MOSI        | D11       |
+| MISO        | D12       |
+| VCC         | 3v3       |
+| GND         | GND       |
+
+
 ## Software
 
 ### Files structure and Functionality:
