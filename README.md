@@ -2,6 +2,11 @@
 porting of the Goblindoif Dungeon Mastering System for a handheld based on Arduino
 
 
+## component details 
+
+RP 2040
+
+
 ### Sensor details
 All chage frequencies, domain variabilities, and values are adjustable by code and installation design.
 
