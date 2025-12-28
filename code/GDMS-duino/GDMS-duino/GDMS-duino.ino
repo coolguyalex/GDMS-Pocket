@@ -232,9 +232,9 @@ void drawScreen() {
       buf[n++] = '0' + (v % 10);
       buf[n] = '\0';
 
-      u8g2.setFont(u8g2_font_logisoso32_tf);   // larger than 24
+      u8g2.setFont(u8g2_font_logisoso20_tf);   // larger than 24
       // y=52 tends to fit nicely with this font on 64px height
-      u8g2.drawStr(0, 52, buf);
+      u8g2.drawStr(30, 54, buf);
     } else {
       u8g2.setFont(u8g2_font_6x10_tf);
       u8g2.drawStr(0, 40, "Press X to roll");
@@ -242,7 +242,7 @@ void drawScreen() {
 
     // Footer hints
     u8g2.setFont(u8g2_font_5x8_tf);
-    u8g2.drawStr(0, 64, "<back  forward>  roll");
+    u8g2.drawStr(0, 64, "<back    forward>    roll");
   } while (u8g2.nextPage());
 }
 
