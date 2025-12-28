@@ -234,7 +234,7 @@ void drawScreen() {
 
       u8g2.setFont(u8g2_font_logisoso20_tf);   // larger than 24
       // y=52 tends to fit nicely with this font on 64px height
-      u8g2.drawStr(30, 54, buf);
+      u8g2.drawStr(44 , 45, buf);
     } else {
       u8g2.setFont(u8g2_font_6x10_tf);
       u8g2.drawStr(0, 40, "Press X to roll");
