@@ -6,7 +6,9 @@ Dungeon master's companion designed for ease of use and customization.
 GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that last minute name or encounter when called upon but staying out of the limelight and keeping you engaged with the game.
 
 ## future ideas 
-- add a little icon to be displayed for each of  the pages
+- add a little icon to be displayed for each of the pages
+- Add an idicator LED (breath for on status), pop for button pushes.
+- Add a beep indicator via passive buzzer (different tones for higher or lower results on tables)
 
 ## Hardware: 
 
@@ -14,10 +16,11 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 
 
 ### Component Table
-| Component ID | Tecnical Name  | Operational Voltage | Data Type | I²C address | Notes|
-|--------------|----------------|--------------|------------------|-------------|------|
-| SSD1306      |   0.96" OLED Display          |3.3-5 | Digital   |0x3C         |      |
-| WWZMDiB      | SD TF Card Adapter Reader     |3.3-5 | Digital   | NA - SPI    |      | 
+| Component ID | Other IDs          | Sensor Name         | Operational Voltage | Data Type | I²C address | Notes|
+|--------------|--------------------|---------------------|---------------------|-----------|-------------|------|
+|RP2040 Adalogger|                  |                     |3.3-5                |           |             | built in SD - See MCU table in logs and documentation|
+| SSD1306   |                    | 0.96" OLED Display         | 3.3-5 | Digital |0x3C ||
+| WWZMDiB   |                    | SD TF Card Adapter Reader Module | 3.3-5 | | NA - SPI | |
 
 
 ### Possible future components 
@@ -27,11 +30,12 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 ### Wiring: 
 
 #### Buttons
-| Button | Program Name | Right Pin | Left Pin| 
-|---|---|---|---|
-| left | B | GND | D2 |
-| middle | A | GND | D3 |
-| eight | X | GND | D4 |
+| Button | Right Pin | Left Pin| 
+|---|---|---|
+| Up | GND | D2 |
+| Down | GND | D3 |
+| A | GND | D4 |
+| B | GND | D4 |
 
 #### OLED SSD1306 
 | SSD1306 Pin | Board Pin |
@@ -58,28 +62,22 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 The native arduino language was chosen for it's low RAM cost for high responsivness. 
 
 ### Function Summary:
-GDMS performs two major functions:
-1. Navigates the file tree.
-2. Pulls a random entry from the txt files.
-Some of this functionality will need to be dyanmic in order to incorporate new user-uplaoded data.
+1. Navigate pages with titles corresponding to folders contained within the root directory.
+2. Display the titles of csv files contained within folders as a list on each page.
+3. Allow users to select which entry they would like to "Roll" on
+4. "Roll" a result by randomly selecting an entry from lists contained within csv files.
 
-### Data 
-GDMS will only contain txt files arranged in a specific folder structure composed of a main directroy, page directory,  and text files containing lists of entries contained in the page directory. 
+### Additional functionality
+1. When CSV files contain 2 columns, column 1 is used to provide weights to different results. Otherwise entries have equal weights.
+2. Interpret JSON files containing "recipes" which chain csv files together to create more complex generators.
+3. Display the titiles of JSONS along side simple csv files (such as in item 2).
+4. Allow users to save up to 10 generated items to a "Saved" page. Each saved entry is saved to the SD card and thus creates a new entry in a list.
+5. Allow users to delete saved entries on the "Saved" page
 
-### Folder Structure
-- Main directory: Folders are all held in a main directory: "Data"
-- Page directory: Each folder's name within the main directory will be used to generate the titles at the top of the pages in the interface. e.g. "names", "dice", "encounters". 
-- The function directory contains txt files containing a list of entries. 
 
-### Functionality 
-- All user-facing data is held within the data folder. UI should begin within the data folder.
-- GDMS will dynamically assign the title of a page based on the names of folders held in the pages directory. e.g. "names", "dice", "encounters". 
-- Pages will contain eith er a list of tables which may be rolled or offer a single table to be rolled 
-    - users may advance to the next the page by hitting the A buttons and go page to the last page with the B button. 
-- Each page has two display possibilities:
-    - If the page directory only contains one text file then the page should simple allow to roll the relevant table by hitting the x button
-    - If the page directory contains further folders the page should display a list which the user may begin to navigate by hitting the x button 
-        - The may then switch selection by hitting the A button and chose which random table they want to roll by hitting the X button. Pressing the B button goes back a step
+### Folder and Data Structure
+- Data directory: Folders are all held in a main directory named: "Data"
+- Page directory: Each folder's name within the data directory will be used to generate the titles at the top of the pages in the interface. e.g. "names", "dice", "encounters". 
 
 
 ### Library Table
