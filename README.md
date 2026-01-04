@@ -84,6 +84,11 @@ The native arduino language was chosen for it's low RAM cost for high responsivn
 2. Ambient Mode - randomly generates entries every 10 seconds for 2 minutes. 
 3. Music mode. Generative ambient. 
 
+### important usability features
+- long folder names truncated to prevent header wrapping and overwriting content beloe. 
+- screen scrolling when reading an entry allows for entries longer than 6 rows 
+- entry file extensions stripped to sabe space and preserve readability 
+- 
 
 ### Folder and Data Structure
 - Data directory: Folders are all held in a main directory named: "Data"
