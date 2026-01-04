@@ -72,11 +72,12 @@ The native arduino language was chosen for it's low RAM cost for high responsivn
 2. Indicator LED "pops" when selectiosn are made.
 3. Buzzer beeps when user "rolls"
 4. When CSV files contain 2 columns, column 1 is used to provide weights to different results. Otherwise entries have equal weights.
-5. Settings Menu allowing users to reduce LED brightness, turn off beeps.
-6. Interpret JSON files containing "recipes" which chain csv files together to create more complex generators.
-7. Display the titiles of JSONS along side simple csv files (such as in item 2).
-8. Allow users to save up to 10 generated items to a "Saved" page. Each saved entry is saved to the SD card and thus creates a new entry in a list.
-9. Allow users to delete saved entries on the "Saved" page
+5. Settings menu allowing users to reduce LED brightness, change LED breathing rate, turn off beeps, etc.
+6. About menu displaying controls and how, why, when, and by whom GDMS was made. User manual available on website. 
+7. Interpret JSON files containing "recipes" which chain csv files together to create more complex generators.
+8. Display the titiles of JSONS along side simple csv files (such as in item 2).
+9. Allow users to save up to 10 generated items to a "Saved" page. Each saved entry is saved to the SD card and thus creates a new entry in a list.
+10. Allow users to delete saved entries on the "Saved" page
 
 ### Cwazy functionality
 1. Random Mode - randomizes your randomization. user hits RANDOM and a random entry appears
