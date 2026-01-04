@@ -514,7 +514,7 @@ void scanCategories() {
 void onButtonPressed(BtnId b) {
   lastInputMs = millis();
 
-  // LED blink
+  // LED blinkc:\Users\sousa\GitHub\Monolith\MonolithV0\ArduinoCode\workingSketch.ino
   analogWrite(LED_PIN, LED_DIM);
   ledBlinkOn = true;
   ledOffMs = lastInputMs + 80;
