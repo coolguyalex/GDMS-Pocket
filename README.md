@@ -15,8 +15,7 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 ### Component Table
 | Component ID | Other IDs          | Sensor Name         | Operational Voltage | Data Type | I²C address | Notes|
 |--------------|--------------------|---------------------|---------------------|-----------|-------------|------|
-|RP2040 Adalogger|------------------|---------------------|3.3-5   -------------|-----------|-------------| built in SD - See MCU table in logs and documentation|
-|--------------|--------------------|---------------------|---------------------|-----------|-------------|------|
+|RP2040 Adalogger|                  |                     |3.3-5                |           |             | built in SD - See MCU table in logs and documentation|
 | SSD1306   |                    | 0.96" OLED Display         | 3.3-5 | Digital |0x3C ||
 | WWZMDiB   |                    | SD TF Card Adapter Reader Module | 3.3-5 | | NA - SPI | |
 
@@ -134,4 +133,5 @@ Example:
 - The system favors predictable behavior, low memory usage, and simple control flow.
 
 - All content is read-only; no file modification or persistence is required.
+
 
