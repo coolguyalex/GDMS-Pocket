@@ -61,18 +61,27 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 ### Language Choice
 The native arduino language was chosen for it's low RAM cost for high responsivness. 
 
-### Function Summary:
+### Functionality Summary for POC:
 1. Navigate pages with titles corresponding to folders contained within the root directory.
 2. Display the titles of csv files contained within folders as a list on each page.
 3. Allow users to select which entry they would like to "Roll" on
 4. "Roll" a result by randomly selecting an entry from lists contained within csv files.
 
-### Additional functionality
-1. When CSV files contain 2 columns, column 1 is used to provide weights to different results. Otherwise entries have equal weights.
-2. Interpret JSON files containing "recipes" which chain csv files together to create more complex generators.
-3. Display the titiles of JSONS along side simple csv files (such as in item 2).
-4. Allow users to save up to 10 generated items to a "Saved" page. Each saved entry is saved to the SD card and thus creates a new entry in a list.
-5. Allow users to delete saved entries on the "Saved" page
+### Additional Functionality for Future Iterations.
+1. Indicator LED provides "breathing" UI to indicate power state 
+2. Indicator LED "pops" when selectiosn are made.
+3. Buzzer beeps when user "rolls"
+4. When CSV files contain 2 columns, column 1 is used to provide weights to different results. Otherwise entries have equal weights.
+5. Settings Menu allowing users to reduce LED brightness, turn off beeps.
+6. Interpret JSON files containing "recipes" which chain csv files together to create more complex generators.
+7. Display the titiles of JSONS along side simple csv files (such as in item 2).
+8. Allow users to save up to 10 generated items to a "Saved" page. Each saved entry is saved to the SD card and thus creates a new entry in a list.
+9. Allow users to delete saved entries on the "Saved" page
+
+### Cwazy functionality
+1. Random Mode - randomizes your randomization. user hits RANDOM and a random entry appears
+2. Ambient Mode - randomly generates entries every 10 seconds for 2 minutes. 
+3. Music mode. Generative ambient. 
 
 
 ### Folder and Data Structure
@@ -87,6 +96,7 @@ The native arduino language was chosen for it's low RAM cost for high responsivn
 | SSD1306 OLED | Adafruit SSD1306 | <Adafruit_SSD1306.h> |  Adafruit | OLED driver library for small screens | 
 | SSD1306 OLED | Adafruit GFX library | <Adafruit_GFX.h> | Adafruit | core graphics library for Adafruit displays| 
 | SSD1306 OLED | U8g2 |  | olikraus | SSD1306 screen library with smaller RAM footprint for many sensors | 
+| RP2040 Adalogger | SdFat - Adafruit Fork | | Adafruit | Enables reading Fat formatted SD cards via Adalogger built in SD card module|
 
 
 ## AI generated Description
@@ -94,24 +104,24 @@ The native arduino language was chosen for it's low RAM cost for high responsivn
 Functional Specification: SD-Based Random Table System (POC)
 
 ### Overview
-The system is a microcontroller-based Dungeon Master aid that reads plain text data from an SD card and displays randomly selected entries on a small screen. All interaction is driven by a simple category-based interface.
+The system is a microcontroller-based Dungeon Master aid that reads plain text data from an SD card and displays randomly selected entries on a small screen. All interaction is driven by a simple category-based interface. The system runs on a adafruit RP2040 Adalogger feather. UI is provided by a 0.96" SSD1306 OLED using IIC, 4 buttons, an LED, and passive buzzer. 
 
 ### Data Layout
 - The SD card contains a top-level directory named /DATA.
 - Inside /DATA, users may create one-level-deep category folders.
     - Folder names define category/page names in the UI.
     - No nested folders beyond this level are supported.
-- Each category folder contains .txt files only.
-- Each .txt file represents a random table with one entry per line.
+- Each category folder contains .csv files only.
+- Each .csv file represents a random table with one entry per line.
 
 Example:
     /DATA
         /NPC
-            names.txt
-            flaws.txt
+            names.csv
+            flaws.csv
         /DICE
-            d20.txt
-            d100.txt
+            d20.csv
+            d100.csv
 
 ### Startup / Discovery
 - On boot (or user-triggered rescan), the system:
@@ -126,15 +136,3 @@ Example:
 - The user scrolls and selects a file.
 - Upon selection:
     - The system reads the file and displays one randomly selected line.
-
-### Random Selection
-- Files are processed in a memory-efficient manner.
-- The system should avoid loading entire files into RAM.
-- Random selection is done by streaming line-by-line and selecting an entry using a lightweight algorithm.
-
-### Constraints
-- Target hardware is Arduino-class with limited RAM.
-- SD access is via SPI.
-- The system favors predictable behavior, low memory usage, and simple control flow.
-
-- All content is read-only; no file modification or persistence is required.
