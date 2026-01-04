@@ -1,10 +1,9 @@
 # GDMS:Pocket
-porting of the Goblindoid Dungeon Mastering System for microcontroller-based handheld.
-
-porting of the Goblindoid Dungeon Mastering System for a handheld based on Arduino
+Goblindoid Dungeon Mastering System for microcontroller-based handheld.
 
 ## Concept: 
-I want to build a dungeon master's companion that effectively dives into folders until it hits txt files and then randomly picks entries from list. It is basically a random table holder and roller.  
+Dungeon master's companion designed for ease of use and customization. 
+GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that last minute name or encounter when called upon but staying out of the limelight and keeping you engaged with the game.
 
 ## future ideas 
 - add a little icon to be displayed for each of  the pages
@@ -134,4 +133,5 @@ Example:
 - Target hardware is Arduino-class with limited RAM.
 - SD access is via SPI.
 - The system favors predictable behavior, low memory usage, and simple control flow.
+
 - All content is read-only; no file modification or persistence is required.
