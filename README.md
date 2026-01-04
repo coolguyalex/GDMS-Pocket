@@ -133,4 +133,5 @@ Example:
 - Target hardware is Arduino-class with limited RAM.
 - SD access is via SPI.
 - The system favors predictable behavior, low memory usage, and simple control flow.
+
 - All content is read-only; no file modification or persistence is required.
