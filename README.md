@@ -32,10 +32,10 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 #### Buttons
 | Button | Right Pin | Left Pin| 
 |---|---|---|
-| Up | GND | D2 |
-| Down | GND | D3 |
-| A | GND | D4 |
-| B | GND | D4 |
+| Up | GND | D9 |
+| Down | GND | D10 |
+| A | GND | D5 |
+| B | GND | D6 |
 
 #### OLED SSD1306 
 | SSD1306 Pin | Board Pin |
