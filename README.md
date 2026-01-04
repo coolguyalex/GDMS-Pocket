@@ -10,15 +10,17 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 
 ## Hardware: 
 
+### MCU Table
+
+
 ### Component Table
-| Component ID | Other IDs          | Sensor Name         | Operational Voltage | Data Type | I²C address | Notes|
-|-----------|--------------------|---------------------|---------------------|-----------|-------------|------|
-| SSD1306   |                    | 0.96" OLED Display         | 3.3-5 | Digital |0x3C ||
-| WWZMDiB   |                    | SD TF Card Adapter Reader Module | 3.3-5 | | NA - SPI | |
+| Component ID | Tecnical Name  | Operational Voltage | Data Type | I²C address | Notes|
+|--------------|----------------|--------------|------------------|-------------|------|
+| SSD1306      |   0.96" OLED Display          |3.3-5 | Digital   |0x3C         |      |
+| WWZMDiB      | SD TF Card Adapter Reader     |3.3-5 | Digital   | NA - SPI    |      | 
 
 
-### future components 
-- RP 2040 
+### Possible future components 
 - ESP32
 - SHARP memory LCD 200 x 400
 
@@ -51,6 +53,9 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 
 
 ## Software
+
+### Language Choice
+The native arduino language was chosen for it's low RAM cost for high responsivness. 
 
 ### Function Summary:
 GDMS performs two major functions:
