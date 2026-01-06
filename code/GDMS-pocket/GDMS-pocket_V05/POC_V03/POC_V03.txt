@@ -5,6 +5,9 @@
 #include <SPI.h>
 #include "SdFat.h"
 
+// Code written by Alexander Sousa and ChatGPT January 2026
+
+
 // =================== PINS (from your FullSuiteTest) ===================
 const uint8_t LED_PIN    = 11;   // external LED on D11
 const uint8_t BUZZER_PIN = 12;   // passive buzzer on D12
@@ -511,7 +514,7 @@ void scanCategories() {
 void onButtonPressed(BtnId b) {
   lastInputMs = millis();
 
-  // LED blink
+  // LED blinkc:\Users\sousa\GitHub\Monolith\MonolithV0\ArduinoCode\workingSketch.ino
   analogWrite(LED_PIN, LED_DIM);
   ledBlinkOn = true;
   ledOffMs = lastInputMs + 80;
