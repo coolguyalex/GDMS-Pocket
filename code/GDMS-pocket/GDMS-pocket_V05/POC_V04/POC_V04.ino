@@ -13,7 +13,7 @@ const uint8_t LED_PIN    = 11;   // external LED on D11
 const uint8_t BUZZER_PIN = 12;   // passive buzzer on D12
 
 // Buttons per your README wiring:
-// Up=D9, Down=D10, A=D5 (back), B=D6 (select) :contentReference[oaicite:5]{index=5}
+// Up=D9, Down=D10, A=D6 (back), B=D5 (select) :contentReference[oaicite:5]{index=5}
 enum BtnId : uint8_t { BTN_A=0, BTN_B=1, BTN_UP=2, BTN_DOWN=3 };
 const uint8_t BTN_PINS[4]  = {6, 5, 9, 10};
 const char*   BTN_NAMES[4] = {"A(D5)", "B(D6)", "UP(D9)", "DN(D10)"};
