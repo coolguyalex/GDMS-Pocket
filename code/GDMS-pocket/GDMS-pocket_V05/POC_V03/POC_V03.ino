@@ -3,7 +3,7 @@
 #include <Adafruit_SSD1306.h>
 
 #include <SPI.h>
-#include "SdFat.h"
+#include <SdFat.h>
 
 // Code written by Alexander Sousa and ChatGPT January 2026
 
