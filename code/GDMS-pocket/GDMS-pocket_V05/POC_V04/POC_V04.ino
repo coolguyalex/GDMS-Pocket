@@ -3,6 +3,7 @@
 #include <Adafruit_SSD1306.h>
 #include <SPI.h>
 #include <SdFat.h>
+#include <ArduinoJson.h>
 
 // Code written by Alexander Sousa and ChatGPT January 2026
 
@@ -176,14 +177,22 @@ bool endsWithCsv(const String& s) {
   return tail == ".csv";
 }
 
-String stripCsvExt(const String& s) {
-  if (s.length() >= 4) {
-    String tail = s.substring(s.length() - 4);
-    tail.toLowerCase();
-    if (tail == ".csv") return s.substring(0, s.length() - 4);
-  }
+bool endsWithJson(const String& s) {
+  if (s.length() < 5) return false;
+  String tail = s.substring(s.length() - 5);
+  tail.toLowerCase();
+  return tail == ".json";
+}
+
+
+String stripCsvOrJsonExt(const String& s) {
+  String lower = s;
+  lower.toLowerCase();
+  if (lower.endsWith(".csv"))  return s.substring(0, s.length() - 4);
+  if (lower.endsWith(".json")) return s.substring(0, s.length() - 5);
   return s;
 }
+
 
 // Truncate to fit a max character count. Adds "..." if truncated.
 // For size-1 font on 128px wide screen, ~21 chars fits with our "> " prefix.
@@ -230,13 +239,21 @@ void scanCsvFilesForSelectedCategory() {
     return;
   }
 
+
+//-------------------------------FLAG
+
+
   FsFile entry;
   while (fileCount < MAX_FILES && (entry = dir.openNextFile())) {
     if (!entry.isDirectory()) {
       char nameBuf[64];
       entry.getName(nameBuf, sizeof(nameBuf));
       String fn = String(nameBuf);
-      if (endsWithCsv(fn)) {
+      if (fn.length() > 0 && fn[0] == '_') {
+      entry.close();
+      continue;
+      }
+      if (endsWithCsv(fn) || endsWithJson(fn)) {
         files[fileCount++] = fn;
       }
     }
@@ -263,7 +280,7 @@ bool pickRandomCsvLine(const String& fullPath, String& outLine) {
   }
 
   // Seed RNG from a little timing jitter (good enough for this)
-  randomSeed(micros());
+  //randomSeed(micros());
 
   // We'll read line-by-line into a fixed buffer
   const size_t BUF_SZ = 180; // keep modest to avoid RAM spikes
@@ -300,6 +317,92 @@ bool pickRandomCsvLine(const String& fullPath, String& outLine) {
   return chosen;
 }
 
+
+  // Resolve "roll" paths relative to the recipe file's folder.
+String joinRelativePath(const String& baseFilePath, const String& rel) {
+  // baseFilePath like "/DATA/CAT/npc.json"
+  int slash = baseFilePath.lastIndexOf('/');
+  if (slash < 0) return rel;               // weird, but fallback
+  String baseDir = baseFilePath.substring(0, slash + 1); // keep trailing '/'
+  if (rel.startsWith("/")) return rel;     // absolute path
+  return baseDir + rel;                    // relative path
+  }
+
+// v1 recipe: { "parts":[ { "label":"Name", "roll":"names.csv", "p":0.8 }, ... ] }
+// Output: lines "Label: value" for included parts
+bool runJsonRecipeV1(const String& recipePath, String& outText) {
+  FsFile f = SD.open(recipePath.c_str(), O_RDONLY);
+  if (!f) {
+    Serial.print("Recipe open failed: ");
+    Serial.println(recipePath);
+    return false;
+  }
+
+  // Keep this modest; bump if your recipes grow.
+  // If deserializeJson fails with NoMemory, increase this.
+  StaticJsonDocument<2048> doc;
+
+  DeserializationError err = deserializeJson(doc, f);
+  f.close();
+
+  if (err) {
+    Serial.print("Recipe JSON parse failed: ");
+    Serial.println(err.c_str());
+    return false;
+  }
+
+  JsonArray parts = doc["parts"].as<JsonArray>();
+  if (parts.isNull()) {
+    Serial.println("Recipe missing parts[]");
+    return false;
+  }
+
+  outText = "";
+
+  for (JsonObject part : parts) {
+    // probability p defaults to 1.0
+    double p = part.containsKey("p") ? part["p"].as<double>() : 1.0;
+    if (p < 0.0) p = 0.0;
+    if (p > 1.0) p = 1.0;
+
+    long threshold = (long)(p * 1000.0 + 0.5); // 0..1000
+    if (threshold < 1000) {
+      if (random(1000) >= threshold) {
+        continue; // omitted
+      }
+    }
+
+    const char* rollC = part["roll"];     // required in v1
+    if (!rollC || rollC[0] == '\0') {
+      continue;
+    }
+
+    String rollPath = joinRelativePath(recipePath, String(rollC));
+
+    String line;
+    if (!pickRandomCsvLine(rollPath, line)) {
+      // If a roll fails, just skip it (v1 behavior)
+      Serial.print("Roll failed: ");
+      Serial.println(rollPath);
+      continue;
+    }
+
+    const char* labelC = part["label"];
+    if (labelC && labelC[0] != '\0') {
+      outText += String(labelC);
+      outText += ": ";
+    }
+    outText += line;
+    outText += "\n";
+  }
+
+  // Trim trailing newline
+  while (outText.endsWith("\n") || outText.endsWith("\r")) {
+    outText.remove(outText.length() - 1);
+  }
+
+  return outText.length() > 0;
+}
 
 
 // Render category list (folders under /DATA)
@@ -395,7 +498,7 @@ void drawFiles() {
     if (idx == fileCursor) display.print("> ");
     else                   display.print("  ");
 
-    String shown = stripCsvExt(files[idx]);   // hide .csv
+    String shown = stripCsvOrJsonExt(files[idx]);   // hide .csv
     shown = ellipsize(shown, 19);
     display.print(shown);
 
@@ -410,7 +513,7 @@ void drawTable() {
   display.clearDisplay();
 
   // Header: show file name without .csv + roll counter
-  String hdr = stripCsvExt(selectedFile);
+  String hdr = stripCsvOrJsonExt(selectedFile);
 hdr = ellipsize(hdr, 21);  // <= 9 chars is reliably safe at size 2
 drawHeader(hdr.c_str(), (rollCount > 0 ? rollCount - 1 : 0), (rollCount > 0 ? rollCount : 0));
 
@@ -449,12 +552,16 @@ drawHeader(hdr.c_str(), (rollCount > 0 ? rollCount - 1 : 0), (rollCount > 0 ? ro
   for (uint16_t i = 0; i < currentEntry.length(); i++) {
     char c = currentEntry[i];
 
-    // handle explicit newlines
-    if (c == '\n') {
-      curLine++;
-      col = 0;
-      continue;
+  if (c == '\n') {
+    // If we are within the visible window, advance the on-screen row too
+    if (curLine >= tableScrollLine) {
+      drawLine++;
+      if (drawLine >= maxLinesOnScreen) break;
     }
+    curLine++;
+    col = 0;
+    continue;
+  }
 
     // wrap
     if (col >= CHARS_PER_LINE) {
@@ -562,13 +669,32 @@ void onButtonPressed(BtnId b) {
     else if (b == BTN_A) { // A=select csv -> open table view
       if (fileCount > 0) {
         selectedFile = files[fileCursor];
-
         String fullPath = String("/DATA/") + selectedCat + "/" + selectedFile;
-
         rollCount = 0;
         currentEntry = "";
+    String lower = selectedFile;
+    lower.toLowerCase();
 
-        if (pickRandomCsvLine(fullPath, currentEntry)) {
+    bool ok = false;
+    if (lower.endsWith(".csv")) {
+      ok = pickRandomCsvLine(fullPath, currentEntry);
+    } else if (lower.endsWith(".json")) {
+      ok = runJsonRecipeV1(fullPath, currentEntry);
+    } else {
+      currentEntry = "Unsupported file.";
+      ok = true; // show message
+    }
+
+    rollCount = 1;
+    mode = MODE_TABLE;
+    tableScrollLine = 0;
+
+    if (!ok) {
+      Serial.println("No selectable output.");
+      currentEntry = "No selectable output.";
+    }
+
+/*        if (pickRandomCsvLine(fullPath, currentEntry)) {
           rollCount = 1;
           mode = MODE_TABLE;
           tableScrollLine = 0; // ADDED IN V3
@@ -579,22 +705,41 @@ void onButtonPressed(BtnId b) {
           mode = MODE_TABLE;
           tableScrollLine = 0; // ADDED IN V3
         }
+*/
       }
     } else if (b == BTN_B) { // B=back
       mode = MODE_CATS;
     }
- } else if (mode == MODE_TABLE) {
+  } else if (mode == MODE_TABLE) {
+
     if (b == BTN_A) { // reroll
       String fullPath = String("/DATA/") + selectedCat + "/" + selectedFile;
-      if (pickRandomCsvLine(fullPath, currentEntry)) {
-        rollCount++;
-        tableScrollLine = 0;   // <-- add here
+
+      String lower = selectedFile;
+      lower.toLowerCase();
+
+      bool ok = false;
+      if (lower.endsWith(".csv")) {
+        ok = pickRandomCsvLine(fullPath, currentEntry);
+      } else if (lower.endsWith(".json")) {
+        ok = runJsonRecipeV1(fullPath, currentEntry);
+      } else {
+        currentEntry = "Unsupported file.";
+        ok = true;
       }
-    } else if (b == BTN_UP) {
+
+      if (!ok) currentEntry = "No selectable output.";
+
+      rollCount++;
+      tableScrollLine = 0;
+    }
+    else if (b == BTN_UP) {
       tableScrollLine--;
-    } else if (b == BTN_DOWN) {
+    }
+    else if (b == BTN_DOWN) {
       tableScrollLine++;
-    } else if (b == BTN_B) {
+    }
+    else if (b == BTN_B) {
       mode = MODE_FILES;
     }
   }
@@ -605,6 +750,7 @@ void onButtonPressed(BtnId b) {
 void setup() {
   Serial.begin(115200);
   delay(200);
+  randomSeed(micros());
 
   pinMode(LED_PIN, OUTPUT);
   pinMode(BUZZER_PIN, OUTPUT);
