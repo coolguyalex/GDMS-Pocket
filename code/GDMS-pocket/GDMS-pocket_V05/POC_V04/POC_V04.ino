@@ -16,7 +16,7 @@ const uint8_t BUZZER_PIN = 12;   // passive buzzer on D12
 // Up=D9, Down=D10, A=D6 (back), B=D5 (select) :contentReference[oaicite:5]{index=5}
 enum BtnId : uint8_t { BTN_A=0, BTN_B=1, BTN_UP=2, BTN_DOWN=3 };
 const uint8_t BTN_PINS[4]  = {6, 5, 9, 10};
-const char*   BTN_NAMES[4] = {"A(D5)", "B(D6)", "UP(D9)", "DN(D10)"};
+const char*   BTN_NAMES[4] = {"A(D6)", "B(D5)", "UP(D9)", "DN(D10)"};
 
 // =================== OLED ===================
 #define SCREEN_WIDTH 128
@@ -318,15 +318,19 @@ bool pickRandomCsvLine(const String& fullPath, String& outLine) {
 }
 
 
-  // Resolve "roll" paths relative to the recipe file's folder.
-String joinRelativePath(const String& baseFilePath, const String& rel) {
-  // baseFilePath like "/DATA/CAT/npc.json"
-  int slash = baseFilePath.lastIndexOf('/');
-  if (slash < 0) return rel;               // weird, but fallback
-  String baseDir = baseFilePath.substring(0, slash + 1); // keep trailing '/'
-  if (rel.startsWith("/")) return rel;     // absolute path
-  return baseDir + rel;                    // relative path
+ String joinRelativePath(const String& baseFilePath, const String& rel) {
+  // If rel starts with "/", treat it as rooted at /DATA
+  // e.g. "/items/treasure.csv" -> "/DATA/items/treasure.csv"
+  if (rel.startsWith("/")) {
+    return String("/DATA") + rel;
   }
+
+  // Otherwise, resolve relative to the recipe's folder
+  int slash = baseFilePath.lastIndexOf('/');
+  if (slash < 0) return rel; // fallback
+  String baseDir = baseFilePath.substring(0, slash + 1);
+  return baseDir + rel;
+}
 
 // v1 recipe: { "parts":[ { "label":"Name", "roll":"names.csv", "p":0.8 }, ... ] }
 // Output: lines "Label: value" for included parts
@@ -340,7 +344,7 @@ bool runJsonRecipeV1(const String& recipePath, String& outText) {
 
   // Keep this modest; bump if your recipes grow.
   // If deserializeJson fails with NoMemory, increase this.
-  StaticJsonDocument<2048> doc;
+  JsonDocument doc;
 
   DeserializationError err = deserializeJson(doc, f);
   f.close();
@@ -361,7 +365,7 @@ bool runJsonRecipeV1(const String& recipePath, String& outText) {
 
   for (JsonObject part : parts) {
     // probability p defaults to 1.0
-    double p = part.containsKey("p") ? part["p"].as<double>() : 1.0;
+    double p = part["p"].is<double>() ? part["p"].as<double>() : 1.0;
     if (p < 0.0) p = 0.0;
     if (p > 1.0) p = 1.0;
 
