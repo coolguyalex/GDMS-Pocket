@@ -12,17 +12,20 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 
 ## Hardware: 
 
-### pin plan 
+### 
 | OLED pin | Function     | RP2040 pin      |
 | -------- | ------------ | --------------- |
-| SCL      | SW SPI clock | **D4**          |
-| SDA      | SW SPI data  | **D6**          |
-| CS       | chip select  | **D24**         |
-| DC       | data/command | **D25**         |
-| RST      | reset        | **D12**         |
+| SCL      | SW SPI clock | **D13**         |
+| SDA      | SW SPI data  | **D12**         |
+| CS       | chip select  | **D10**         |
+| DC       | data/command | **D11**         |
+| RST      | reset        | **D09**         |
 | VCC      | power        | **3V**          |
 | GND      | ground       | **GND**         |
-
+|          |              |                 |
+| GND      | ground       | **GND**         |
+| GND      | ground       | **GND**         |
+| GND      | ground       | **GND**         |
 
 ### Component Table
 | Component ID | Other IDs          | Sensor Name         | Operational Voltage | Data Type | I²C address | Notes|
@@ -151,4 +154,5 @@ Example:
 - The user scrolls and selects a file.
 - Upon selection:
     - The system reads the file and displays one randomly selected line.
+
 
