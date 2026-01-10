@@ -12,7 +12,16 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 
 ## Hardware: 
 
-### MCU Table
+### pin plan 
+| OLED pin | Function     | RP2040 pin      |
+| -------- | ------------ | --------------- |
+| SCL      | SW SPI clock | **D4**          |
+| SDA      | SW SPI data  | **D6**          |
+| CS       | chip select  | **D24**         |
+| DC       | data/command | **D25**         |
+| RST      | reset        | **D12**         |
+| VCC      | power        | **3V**          |
+| GND      | ground       | **GND**         |
 
 
 ### Component Table
@@ -142,3 +151,4 @@ Example:
 - The user scrolls and selects a file.
 - Upon selection:
     - The system reads the file and displays one randomly selected line.
+
