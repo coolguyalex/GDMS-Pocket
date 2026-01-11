@@ -1,5 +1,5 @@
 # GDMS Pocket – Dev Log  
-## SH1107 1.5" OLED Bring-Up, Pin Mapping, and Hardware Validation
+## SH1107 1.5" OLED Bring-Up, Pin Mapping, Hardware Validation, JSON recipe functions, _file.ext ignore behavior.
 
 ### Date
 January 2026
@@ -253,4 +253,200 @@ This brings audio feedback more in line with a “quiet handheld tool” rather 
 
 **Status:**  
 The recovered codebase is now functionally equivalent (and in some areas improved) relative to the original pre-loss state, with JSON recipes, UI scaling, and startup identity fully restored.
+
+
+# GDMS-pocket JSON Recipe Conventions (V1)
+
+## Purpose
+A **recipe** is a `.json` file that generates a multi-line output by chaining together one or more random rolls from CSV tables.
+
+Recipes appear in the UI alongside CSV files and can be selected like any other generator.
+
+---
+
+## File placement and visibility
+
+### Category folders
+All content lives under:
+
+```
+/DATA/<CATEGORY>/
+```
+
+A category folder can contain:
+- visible CSV tables (`names.csv`)
+- visible recipes (`npc.json`)
+- **hidden support tables and assets** prefixed with `_` (`_traits.csv`, `_icon.bin`)
+
+### Hidden files
+Any file beginning with `_` is:
+- **not shown in the UI file list**
+- still accessible to recipes via `"roll"` paths
+
+This allows “ingredient tables” and internal assets to be hidden from the user-facing interface.
+
+---
+
+## Recipe JSON structure
+
+### Required structure
+A V1 recipe is a JSON object containing:
+
+- `parts`: an array of roll steps
+
+```json
+{
+  "parts": [
+    { "label": "Name", "roll": "names.csv" },
+    { "label": "Goal", "roll": "_goals.csv", "p": 0.8 }
+  ]
+}
+```
+
+---
+
+### `parts[]` entries
+
+Each part is an object with the following fields:
+
+#### `roll` (required)
+Path to a CSV file that the recipe will roll on.
+
+- **Relative path** (local to the recipe folder):
+  ```json
+  "roll": "names.csv"
+  ```
+
+- **Cross-category path** (rooted under `/DATA`):
+  ```json
+  "roll": "/items/treasure.csv"
+  ```
+
+---
+
+#### `label` (optional)
+Text prefix shown before the rolled result.
+
+If present:
+```
+Label: <rolled line>
+```
+
+If omitted, the rolled line is printed alone.
+
+---
+
+#### `p` (optional)
+Probability that this part appears in the output.
+
+- Range: `0.0` to `1.0`
+- Default: `1.0` (always included)
+
+Examples:
+- `1.0` → always included
+- `0.25` → included ~25% of the time
+- `0.0` → never included (useful for testing)
+
+---
+
+## Output format (V1)
+
+Recipe output is a **multi-line string**.
+Each included part contributes exactly one line, in order.
+
+Example output:
+
+```
+Name: Joryn Kettle
+Job: Dockhand
+Trait: Always humming
+```
+
+Notes:
+- Parts are processed top to bottom.
+- Failed rolls are silently skipped.
+- If no parts produce output, the UI displays:
+  ```
+  No selectable output.
+  ```
+
+---
+
+## CSV expectations (V1)
+
+Recipes roll from CSV files using simple random line selection.
+
+- Empty lines are skipped
+- Lines beginning with `#` or `//` are treated as comments
+- No weighting or column parsing is performed in V1
+
+---
+
+## Naming conventions
+
+Recommended patterns:
+
+### Visible generators
+- `npc.json`
+- `room.json`
+- `encounter.json`
+
+### Hidden ingredient tables
+- `_egress.csv`
+- `_rumors.csv`
+- `_gods.csv`
+
+### Icons (future / optional)
+- `_icon.bin` (32×32 monochrome bitmap)
+
+---
+
+## Example: Cross-folder room generator
+
+If stored at `/DATA/room/room.json`:
+
+```json
+{
+  "parts": [
+    { "label": "Size", "roll": "size.csv" },
+    { "label": "Shape", "roll": "shape.csv" },
+    { "label": "Graffiti", "roll": "graffiti.csv", "p": 0.35 },
+    { "label": "Trap", "roll": "/traps/traps.csv", "p": 0.20 },
+    { "label": "Treasure", "roll": "/items/treasure.csv", "p": 0.25 },
+    { "label": "Junk", "roll": "/items/junk.csv", "p": 0.40 }
+  ]
+}
+```
+
+---
+
+## Reserved keys (forward compatibility)
+
+These keys are reserved for future versions and may be included safely:
+
+- `title` (string): display name override
+- `type` (string): generator category (e.g. `npc`, `room`)
+- `version` (number): recipe schema version
+
+Example:
+
+```json
+{
+  "title": "NPC Generator",
+  "type": "npc",
+  "version": 1,
+  "parts": [
+    { "label": "Name", "roll": "names.csv" }
+  ]
+}
+```
+
+---
+
+## Planned V2 Extensions
+
+- Recipes that invoke other recipes
+- Weighted CSV support
+- Formatting templates (single-line summaries)
+- Grouped / conditional parts
 
