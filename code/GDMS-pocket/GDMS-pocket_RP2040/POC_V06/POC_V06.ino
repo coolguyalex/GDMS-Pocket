@@ -362,10 +362,14 @@ bool pickRandomCsvLine(const String& fullPath, String& outLine) {
         // The entry text is the remainder after the comma
         entryText = line.substring(commaIdx + 1);
         entryText.trim();
-        if (entryText.length() == 0) entryText = ""; // allow empty text but keep it valid
+        // leave entryText as-is; we'll skip empty/invalid entries below
       }
       // else: first token wasn't a valid number — keep whole line as entryText and weight=1
     }
+
+    // Skip empty or malformed entries (e.g., a lone comma "," or blank line)
+    if (entryText.length() == 0) continue;
+    if (entryText == ",") continue;
 
     // Update weighted reservoir selection
     cumulative += weight;
