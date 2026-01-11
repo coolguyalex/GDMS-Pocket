@@ -1,0 +1,10 @@
+{
+  "type": "gdms_recipe",
+  "version": 1,
+  "title": "Room",
+  "steps": [
+    { "label": "Size",  "table": "DATA/room/size.csv"},
+    { "label": "Shape", "table": "DATA/room/size.csv" },
+    { "label": "Trap",  "table": "DATA/traps/effect.csv", "p": 0.25 }
+  ]
+}

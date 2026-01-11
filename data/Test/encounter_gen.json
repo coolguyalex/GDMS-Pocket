@@ -1,0 +1,13 @@
+{
+  "type": "recipe",
+  "version": 1,
+  "title": "encounter_gen",
+  "parts": [
+    { "label": "quantity", "roll": "_quant.csv" },
+    { "label": "monster", "roll": "monsters.csv" },
+    { "label": "status", "roll": "status.csv" },
+    { "label": "drop", "roll": "/items/junk.csv", "p": 0.5 },
+    { "label": "drop", "roll": "/items/treasure.csv", "p": 0.5 }
+  ],
+  "format": "{quantity}: {monster}(s)\n{status}\ndrop: {drop}"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "recipe",
+  "version": 1,
+  "title": "npc_gen",
+  "parts": [
+    { "label": "name", "roll": "names.csv" },
+    { "label": "occupation", "roll": "jobs.csv" },
+    { "label": "motivation", "roll": "motivations.csv", "p": 0.85 },
+    { "label": "flaw", "roll": "flaws.csv", "p": 0.60 },
+    { "label": "look", "roll": "physical_traits.csv", "p": 0.90 },
+    { "label": "personality", "roll": "personalities.csv" }
+  ],
+  "format": "{name} \nthe {personality} {occupation}\nmotivation: {motivation}\nflaw: {flaw}\nlook: {look}"
+}
