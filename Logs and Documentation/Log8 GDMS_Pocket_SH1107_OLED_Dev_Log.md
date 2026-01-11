@@ -151,3 +151,106 @@ This sketch serves as:
 ---
 
 **End of log**
+
+
+## Log 8 Addendum – JSON Recipes, UI Refinements, and Audio Tuning  
+**Date:** 2026  
+**Author:** Alexander Sousa  
+
+This addendum documents work completed after the initial Log 8 entry, focused on restoring and extending functionality following a partial code recovery, as well as refining UI and hardware feedback for the 128×128 OLED build.
+
+---
+
+### 1. JSON Recipe System (V1 Re-Integration)
+
+The JSON “recipe” system was re-implemented after recovering a near-latest branch. The intent of this system is to allow higher-level generators (e.g. NPCs, rooms) to chain together multiple random table rolls into a single output.
+
+**Key features implemented:**
+- `.json` files are now treated as selectable generators alongside `.csv` tables.
+- Files prefixed with `_` are hidden from the UI but remain accessible to recipes (e.g. `_icon.bin`, `_internal.csv`).
+- JSON recipes define a `parts[]` array, each part specifying:
+  - `roll`: a CSV path to sample from
+  - `label` (optional): prepended to the result
+  - `p` (optional): probability (0.0–1.0) that the part is included
+- Recipes may reference:
+  - Local files (relative to the recipe’s folder)
+  - Cross-category files using `/DATA`-rooted paths (e.g. `/items/treasure.csv`)
+
+**Runtime behavior:**
+- Selecting a `.json` file runs the recipe and displays the composed output in the same table view as CSVs.
+- Rerolling (`A` in table view) correctly re-executes the recipe rather than sampling raw JSON lines.
+
+This establishes a stable **V1 recipe system** suitable for NPC, room, and encounter generators.
+
+---
+
+### 2. Input Handling Fixes (CSV vs JSON)
+
+A critical fix was made to ensure consistent behavior between:
+- Initial selection of a file (`MODE_FILES`)
+- Rerolling while viewing results (`MODE_TABLE`)
+
+Both code paths now branch explicitly based on file extension:
+- `.csv` → `pickRandomCsvLine()`
+- `.json` → `runJsonRecipeV1()`
+
+This prevents erroneous behavior where rerolls on JSON generators would previously display raw JSON keys.
+
+---
+
+### 3. UI Layout Updates for 128×128 OLED
+
+With the transition from a 0.96″ display to a 1.5″ 128×128 OLED:
+
+- **Header text** was upgraded to a larger font for stronger visual identity.
+- **Body text font and wrapping were intentionally left unchanged** to preserve density and readability.
+- Vertical spacing was adjusted so content starts closer to the header divider, reclaiming usable screen space without risking overlap.
+- Category list, file list, and table view now share consistent vertical layout assumptions.
+
+These changes improve readability while keeping rendering logic stable.
+
+---
+
+### 4. Startup Splash Screen
+
+A dedicated splash screen was added to display on boot for ~2 seconds before SD initialization and UI startup.
+
+**Displayed text:**
+GOBLINOID
+DUNGEON
+MASTERING
+SYSTEM
+
+-Alexander Sousa
+2026
+
+
+This establishes device identity and provides a clean, intentional startup experience.
+
+---
+
+### 5. Buzzer Volume Mitigation
+
+The passive buzzer was identified as overly loud when driven directly via `tone()`.
+
+**Mitigations discussed and partially implemented:**
+- Reduced beep duration for UI feedback.
+- Recommended hardware fix: series resistor (≈1 kΩ) on the buzzer signal line.
+- Optional RC filtering discussed for further softening if desired.
+
+This brings audio feedback more in line with a “quiet handheld tool” rather than an alarm-like device.
+
+---
+
+### 6. Future Considerations (Not Yet Implemented)
+
+- Per-category icons loaded from SD (e.g. `_icon.bin` in each folder), rendered as 1-bit bitmaps.
+- JSON recipes invoking other JSON recipes (nested generators).
+- User-editable settings and saveable outputs.
+- Optional migration from `StaticJsonDocument` to `JsonDocument` to align with newer ArduinoJson APIs.
+
+---
+
+**Status:**  
+The recovered codebase is now functionally equivalent (and in some areas improved) relative to the original pre-loss state, with JSON recipes, UI scaling, and startup identity fully restored.
+
