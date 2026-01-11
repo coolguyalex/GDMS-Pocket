@@ -1,0 +1,15 @@
+{
+  "type": "recipe",
+  "version": 1,
+  "title": "monster_generator",
+  "parts": [
+    { "label": "level", "roll": "level.csv" },
+    { "label": "quality", "roll": "quality.csv" },
+    { "label": "mutation 1", "roll": "mutation1.csv", "p": 0.3 },
+    { "label": "mutation 2", "roll": "mutation2.csv", "p": 0.3 },
+    { "label": "mutation 3", "roll": "mutation3.csv", "p": 0.3 },
+    { "label": "strength", "roll": "strength.csv" },
+    { "label": "weakness", "roll": "weakness.csv" }
+  ],
+  "format": "Level {level} {quality}\n{strength}\nWeakness: {weakness}\nMutations:\n- {mutation 1}\n- {mutation 2}\n- {mutation 3}"
+}

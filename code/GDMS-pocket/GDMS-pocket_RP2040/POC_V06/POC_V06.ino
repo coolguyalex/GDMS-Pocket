@@ -298,6 +298,33 @@ if (endsWithCsv(fn) || endsWithJson(fn)) {
   }
   dir.close();
 
+  // Sort files: JSON files first, then case-insensitive alphabetical by name (without extension)
+  for (int i = 0; i < (int)fileCount - 1; i++) {
+    for (int j = i + 1; j < (int)fileCount; j++) {
+      bool iJson = endsWithJson(files[i]);
+      bool jJson = endsWithJson(files[j]);
+      bool doSwap = false;
+
+      if (!iJson && jJson) {
+        // bring JSON earlier
+        doSwap = true;
+      } else if (iJson == jJson) {
+        // same type: compare base names case-insensitively
+        String a = stripCsvOrJsonExt(files[i]);
+        String b = stripCsvOrJsonExt(files[j]);
+        a.toLowerCase();
+        b.toLowerCase();
+        if (a.compareTo(b) > 0) doSwap = true;
+      }
+
+      if (doSwap) {
+        String tmp = files[i];
+        files[i] = files[j];
+        files[j] = tmp;
+      }
+    }
+  }
+
   Serial.print("CSV files in ");
   Serial.print(path);
   Serial.print(": ");
