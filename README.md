@@ -48,12 +48,12 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 
 
 ### Component Information Table
-| Component ID | Other IDs          | Sensor Name         | Operational Voltage | Data Type | I²C address | Notes|
-|--------------|--------------------|---------------------|---------------------|-----------|-------------|------|
-|RP2040 Adalogger|                  |                     |3.3-5                |           |             | built in SD - See MCU table in logs and documentation|
-| SSD1306   |                    | 0.96" OLED Display         | 3.3-5 | Digital |0x3C ||
-| SH1107    |                    | 1.5" 128 x 128 OLED display| 3.3 | Digital   |     | NA - SPI|
-| WWZMDiB   |                    | SD TF Card Adapter Reader Module | 3.3-5 | | NA - SPI | |
+| Component ID | Sensor Name             | Operational Voltage | Data Type | I²C address | Notes                      |
+|--------------|-------------------------|---------------------|-----------|-------------|----------------------------|
+|RP2040 Adalogger|                       |3.3-5                |           |             | built in SD - See MCU table in logs and documentation|
+| SSD1306   | 0.96" OLED Display         | 3.3-5               | Digital   |0x3C    |                                 |
+| SH1107    | 1.5" 128 x 128 OLED display| 3.3                 | Digital   |NA - SPI|Modified library default_x_offset|
+| WWZMDiB   | SD TF Card Adapter Reader Module                 | 3.3-5 |   |NA - SPI|                                 |
 
 
 ### Possible future components 
@@ -175,6 +175,7 @@ Example:
 - The user scrolls and selects a file.
 - Upon selection:
     - The system reads the file and displays one randomly selected line.
+
 
 
 
