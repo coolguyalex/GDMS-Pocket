@@ -12,26 +12,47 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 
 ## Hardware: 
 
-### 
-| OLED pin | Function     | RP2040 pin      |
-| -------- | ------------ | --------------- |
-| SCL      | SW SPI clock | **D13**         |
-| SDA      | SW SPI data  | **D12**         |
-| CS       | chip select  | **D10**         |
-| DC       | data/command | **D11**         |
-| RST      | reset        | **D09**         |
-| VCC      | power        | **3V**          |
-| GND      | ground       | **GND**         |
-|          |              |                 |
-| GND      | ground       | **GND**         |
-| GND      | ground       | **GND**         |
-| GND      | ground       | **GND**         |
+## Pin Mapping (Feather RP2040 Adalogger)
 
-### Component Table
+### OLED Display (SH1107, Software SPI)
+| OLED Pin | Feather Pin |
+|--------|-------------|
+| VCC | 3V3 |
+| GND | GND |
+| SCL (CLK) | D13 |
+| SDA (DATA) | D12 |
+| DC | D11 |
+| CS | D10 |
+| RST | D9 |
+
+### Buttons (Active-Low, Using Internal Pull-Ups)
+| Button | Feather Pin |
+|-------|-------------|
+| Up | A2 |
+| Down | A3 |
+| A | A1 |
+| B | A0 |
+
+### Buzzer (Passive)
+| Signal | Feather Pin |
+|--------|-------------|
+| SIG | D5 |
+| VCC | 3V3 |
+| GND | GND |
+
+### LED
+| LED Connection | Feather Pin |
+|---------------|-------------|
+| Anode (via resistor) | D24 |
+| Cathode | GND |
+
+
+### Component Information Table
 | Component ID | Other IDs          | Sensor Name         | Operational Voltage | Data Type | I²C address | Notes|
 |--------------|--------------------|---------------------|---------------------|-----------|-------------|------|
 |RP2040 Adalogger|                  |                     |3.3-5                |           |             | built in SD - See MCU table in logs and documentation|
 | SSD1306   |                    | 0.96" OLED Display         | 3.3-5 | Digital |0x3C ||
+| SH1107    |                    | 1.5" 128 x 128 OLED display| 3.3 | Digital   |     | NA - SPI|
 | WWZMDiB   |                    | SD TF Card Adapter Reader Module | 3.3-5 | | NA - SPI | |
 
 
@@ -154,5 +175,6 @@ Example:
 - The user scrolls and selects a file.
 - Upon selection:
     - The system reads the file and displays one randomly selected line.
+
 
 
