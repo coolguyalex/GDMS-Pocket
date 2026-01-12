@@ -15,6 +15,11 @@ This file documents the features and fixes added to the POC_V06 sketch.
   - Recipes declare `parts[]` with `roll`, optional `label`, and optional probability `p` (0.0–1.0).
   - Relative (`roll": "names.csv"`) and root (`roll": "/items/treasure.csv"`) paths are supported.
 
+- **File listing & ordering**
+  - File lists now show **`.json` files first**, followed by other files sorted **case-insensitively by base filename** (extensions are ignored for ordering).
+  - This makes recipes appear at the top of category pages (e.g., `monster_generator.json` will be listed before `level.csv`).
+  - If you need a custom ordering, prefix filenames (e.g., `00_level.csv`) or add a naming convention to enforce the desired order.
+
 ## 🛠 Fixes & Robustness
 
 - **Skip malformed / empty entries**

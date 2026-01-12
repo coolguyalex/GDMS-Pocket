@@ -16,7 +16,7 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 
 ### OLED Display (SH1107, Software SPI)
 | OLED Pin | Feather Pin |
-|--------|-------------|
+|-----|-----|
 | VCC | 3V3 |
 | GND | GND |
 | SCL (CLK) | D13 |
@@ -46,12 +46,11 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 | Anode (via resistor) | D24 |
 | Cathode | GND |
 
-
 ### Component Information Table
 | Component ID | Sensor Name             | Operational Voltage | Data Type | I²C address | Notes                      |
-|--------------|-------------------------|---------------------|-----------|-------------|----------------------------|
+|--------------|-------------------------|---------------------|-----------|-------------|----------|
 |RP2040 Adalogger|                       |3.3-5                |           |             | built in SD - See MCU table in logs and documentation|
-| SSD1306   | 0.96" OLED Display         | 3.3-5               | Digital   |0x3C    |                                 |
+| SSD1306   | 0.96" OLED Display         | 3.3-5               | Digital   | 0x3C    |                              |
 | SH1107    | 1.5" 128 x 128 OLED display| 3.3                 | Digital   |NA - SPI|Modified library default_x_offset|
 | WWZMDiB   | SD TF Card Adapter Reader Module                 | 3.3-5 |   |NA - SPI|                                 |
 
@@ -59,6 +58,7 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 ### Possible future components 
 - ESP32
 - SHARP memory LCD 200 x 400
+
 
 ### Wiring: 
 
@@ -101,14 +101,15 @@ The native arduino language was chosen for it's low RAM cost for high responsivn
 4. "Roll" a result by randomly selecting an entry from lists contained within csv files.
 
 ### Additional Functionality for Future Iterations.
-1. Indicator LED provides "breathing" UI to indicate power state 
-2. Indicator LED "pops" when selectiosn are made.
-3. Buzzer beeps when user "rolls"
-4. When CSV files contain 2 columns, column 1 is used to provide weights to different results. Otherwise entries have equal weights.
-5. Settings menu allowing users to reduce LED brightness, change LED breathing rate, turn off beeps, etc.
-6. About menu displaying controls and how, why, when, and by whom GDMS was made. User manual available on website. 
-7. Interpret JSON files containing "recipes" which chain csv files together to create more complex generators.
-8. Display the titiles of JSONS along side simple csv files (such as in item 2).
+1. [X] When CSV files contain 2 columns, column 1 is used to provide weights to different results. Otherwise entries have equal weights.
+2. [X] "About" menu displaying controls and how, why, when, and by whom GDMS was made. User manual available on website. 
+3. [X]  Interpret JSON files containing "recipes" which chain csv files together to create more complex generators.
+4. [X] Display the titiles of JSONS along side simple csv files (such as in item 2).
+Indicator LED "pops" when selectiosn are made.
+5. Buzzer beeps when user "rolls"
+6. Indicator LED provides "breathing" UI to indicate power state 
+7. Settings menu allowing users to reduce LED brightness, change LED breathing rate, turn off beeps, etc.
+8. 
 9. Allow users to save up to 10 generated items to a "Saved" page. Each saved entry is saved to the SD card and thus creates a new entry in a list.
 10. Allow users to delete saved entries on the "Saved" page
 

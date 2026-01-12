@@ -13,7 +13,6 @@
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
-
 #include <U8g2lib.h>
 #include <SPI.h>
 #include <SdFat.h>
