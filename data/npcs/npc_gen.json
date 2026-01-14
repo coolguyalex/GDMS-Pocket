@@ -16,12 +16,5 @@
     { "label": "flaw", "roll": "flaws.csv", "p": 0.60 },
     { "label": "look", "roll": "physical_traits.csv", "p": 0.90 }
   ],
-
-  "format": "{name} \n
-  the {personality} {occupation}\n 
-  CON: {con} STR: {str} DEX: {dex}\n
-  WIS: {wis} INT: {int} CHA: {cha}\n
-  motivation: {motivation}\n
-  flaw: {flaw}\n
-  look: {look}"
+  "format": "{name} \n The {personality} {occupation}\nCON: {con} STR: {str} DEX: {dex}\nWIS: {wis} INT: {int} CHA: {cha}\nMotivation: {motivation}\nFlaw: {flaw}\nLook: {look}"
 }
