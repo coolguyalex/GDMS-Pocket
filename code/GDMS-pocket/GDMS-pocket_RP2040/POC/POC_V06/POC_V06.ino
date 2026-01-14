@@ -459,6 +459,14 @@ bool runJsonRecipeV1(const String& recipePath, String& outText) {
 
   outText = "";
 
+  // We'll collect each part's inline and block forms so we can substitute into a format string if present.
+  const int MAX_PARTS_IN_RECIPE = 40;
+  String partLabels[MAX_PARTS_IN_RECIPE];
+  String partInline[MAX_PARTS_IN_RECIPE];
+  String partBlock[MAX_PARTS_IN_RECIPE];
+  int partsFound = 0;
+  const int MAX_REPEAT = 20;
+
   for (JsonObject part : parts) {
     // p defaults to 1.0
     double p = 1.0;
@@ -476,20 +484,138 @@ bool runJsonRecipeV1(const String& recipePath, String& outText) {
 
     String rollPath = joinRelativePath(recipePath, String(rollC));
 
-    String line;
-    if (!pickRandomCsvLine(rollPath, line)) {
-      Serial.print("Roll failed: ");
-      Serial.println(rollPath);
-      continue;
+    // Determine how many times to sample this part (default 1)
+    int repeatCount = 1;
+
+    if (part["repeat"].is<int>()) {
+      repeatCount = part["repeat"].as<int>();
+    } else if (part["repeat"].is<JsonObject>()) {
+      int rmin = 1, rmax = 1;
+      if (part["repeat"]["min"].is<int>()) rmin = part["repeat"]["min"].as<int>();
+      if (part["repeat"]["max"].is<int>()) rmax = part["repeat"]["max"].as<int>();
+      if (rmax < rmin) { int t = rmin; rmin = rmax; rmax = t; }
+      repeatCount = (int)random(rmin, rmax + 1);
+    } else if (part["repeat"].is<const char*>()) {
+      // accept simple "min-max" string
+      const char* rs = part["repeat"].as<const char*>();
+      int a=0, b=0;
+      if (sscanf(rs, "%d-%d", &a, &b) == 2) {
+        if (b < a) { int t = a; a = b; b = t; }
+        repeatCount = (int)random(a, b + 1);
+      } else {
+        int v = atoi(rs);
+        if (v > 0) repeatCount = v;
+      }
     }
 
-    const char* labelC = part["label"];
-    if (labelC && labelC[0] != '\0') {
-      outText += String(labelC);
-      outText += ": ";
+    // Safety clamp: avoid runaway counts
+    if (repeatCount < 0) repeatCount = 0;
+    if (repeatCount > MAX_REPEAT) repeatCount = MAX_REPEAT;
+
+    // Collect sampled values
+    String sampled[MAX_REPEAT];
+    int sv = 0;
+    for (int ri = 0; ri < repeatCount; ri++) {
+      String line;
+      if (!pickRandomCsvLine(rollPath, line)) {
+        Serial.print("Roll failed: ");
+        Serial.println(rollPath);
+        continue; // skip this repetition
+      }
+      sampled[sv++] = line;
     }
-    outText += line;
-    outText += "\n";
+
+    // Determine join option (controls inline substitution behavior): default = "comma"
+    String joinOpt = "comma";
+    if (part["join"].is<const char*>()) {
+      joinOpt = String(part["join"].as<const char*>());
+      joinOpt.toLowerCase();
+    }
+
+    // Build inline representation
+    String inlineVal = "";
+    if (sv == 1) {
+      inlineVal = sampled[0];
+    } else if (sv > 1) {
+      if (joinOpt == "nl" || joinOpt == "newline") {
+        for (int k = 0; k < sv; k++) {
+          if (k) inlineVal += "\n";
+          inlineVal += sampled[k];
+        }
+      } else { // comma (default)
+        for (int k = 0; k < sv; k++) {
+          if (k) inlineVal += ", ";
+          inlineVal += sampled[k];
+        }
+      }
+    }
+
+    // Build block representation (for fallback output if no format string is provided)
+    String labelStr = "";
+    if (part["label"].is<const char*>()) labelStr = String(part["label"].as<const char*>());
+
+    String blockVal = "";
+    if (sv == 0) {
+      if (labelStr.length()) {
+        blockVal = labelStr + ":\n";
+      }
+    } else if (sv == 1) {
+      if (labelStr.length()) {
+        blockVal = labelStr + ": " + sampled[0];
+      } else {
+        blockVal = sampled[0];
+      }
+    } else {
+      if (labelStr.length()) {
+        blockVal = labelStr + ":\n";
+        for (int k = 0; k < sv; k++) {
+          blockVal += "- ";
+          blockVal += sampled[k];
+          blockVal += "\n";
+        }
+        // remove trailing newline
+        if (blockVal.endsWith("\n")) blockVal.remove(blockVal.length() - 1);
+      } else {
+        for (int k = 0; k < sv; k++) {
+          blockVal += sampled[k];
+          blockVal += "\n";
+        }
+        if (blockVal.endsWith("\n")) blockVal.remove(blockVal.length() - 1);
+      }
+    }
+
+    // Store for substitution and ordered fallback
+    if (partsFound < MAX_PARTS_IN_RECIPE) {
+      partLabels[partsFound] = labelStr;
+      partInline[partsFound] = inlineVal;
+      partBlock[partsFound] = blockVal;
+      partsFound++;
+    }
+  }
+
+  // If a format string is present, perform placeholder substitution using the inline forms
+  const char* fmtC = doc["format"];
+  if (fmtC && fmtC[0] != '\0') {
+    String fmt = String(fmtC);
+
+    for (int i = 0; i < partsFound; i++) {
+      if (partLabels[i].length() == 0) continue;
+      String ph = "{" + partLabels[i] + "}";
+      int pos = fmt.indexOf(ph);
+      while (pos >= 0) {
+        fmt = fmt.substring(0, pos) + partInline[i] + fmt.substring(pos + ph.length());
+        pos = fmt.indexOf(ph);
+      }
+    }
+
+    outText = fmt;
+  } else {
+    // Fallback behavior: emit each part's block form in order (previous behavior)
+    for (int i = 0; i < partsFound; i++) {
+      if (partBlock[i].length() == 0) continue;
+      outText += partBlock[i];
+      outText += "\n";
+    }
   }
 
   // trim trailing newlines

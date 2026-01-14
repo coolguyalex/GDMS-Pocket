@@ -4,18 +4,16 @@
   "title": "PC_gen",
   "parts": [
     { "label": "name", "roll": "names/names.csv" },
-    { "label": "con", "roll": "/dice/3d6.csv", "p": 1.0 },
-    {"label": "str", "roll": "/dice/3d6.csv", "p": 1.0 },
-    { "label": "dex", "roll": "/dice/3d6.csv", "p": 1.0 },
-    { "label": "wis", "roll": "/dice/3d6.csv", "p": 1.0 },
-    { "label": "int", "roll": "/dice/3d6.csv", "p": 1.0 },
-    { "label": "cha", "roll": "/dice/3d6.csv", "p": 1.0 },
+    { "label": "con", "roll": "/dice/3d6.csv"},
+    { "label": "str", "roll": "/dice/3d6.csv"},
+    { "label": "dex", "roll": "/dice/3d6.csv"},
+    { "label": "wis", "roll": "/dice/3d6.csv"},
+    { "label": "int", "roll": "/dice/3d6.csv"},
+    { "label": "cha", "roll": "/dice/3d6.csv"},
     { "label": "ancestry", "roll": "ancestry.csv" },
-    { "label": "background", "roll": "class.csv" }
+    { "label": "background", "roll": "class.csv" },
+    { "label": "gear", "roll": "startingGear.csv", "repeat": { "min": 1, "max": 4 } }
   ],
-  
-  "format": "{name} \n
-  the {ancestry} {background}\n 
-  CON: {con} STR: {str} DEX: {dex}\n
-  WIS: {wis} INT: {int} CHA: {cha}\n
-}
+
+  "format": "{name}\nthe {ancestry} {background}\nCON: {con} STR: {str} DEX: {dex}\nWIS: {wis} INT: {int} CHA: {cha}\n{gear}"
+
