@@ -4,11 +4,24 @@
   "title": "npc_gen",
   "parts": [
     { "label": "name", "roll": "names.csv" },
+    { "label": "personality", "roll": "personalities.csv" },
     { "label": "occupation", "roll": "jobs.csv" },
+    { "label": "con", "roll": "3d6.csv", "p": 1.0 },
+    {"label": "str", "roll": "3d6.csv", "p": 1.0 },
+    { "label": "dex", "roll": "3d6.csv", "p": 1.0 },
+    { "label": "wis", "roll": "3d6.csv", "p": 1.0 },
+    { "label": "int", "roll": "3d6.csv", "p": 1.0 },
+    { "label": "cha", "roll": "3d6.csv", "p": 1.0 },
     { "label": "motivation", "roll": "motivations.csv", "p": 0.85 },
     { "label": "flaw", "roll": "flaws.csv", "p": 0.60 },
-    { "label": "look", "roll": "physical_traits.csv", "p": 0.90 },
-    { "label": "personality", "roll": "personalities.csv" }
+    { "label": "look", "roll": "physical_traits.csv", "p": 0.90 }
   ],
-  "format": "{name} \nthe {personality} {occupation}\nmotivation: {motivation}\nflaw: {flaw}\nlook: {look}"
+  
+  "format": "{name} \n
+  the {personality} {occupation}\n 
+  CON: {con} STR: {str} DEX: {dex}\n
+  WIS: {wis} INT: {int} CHA: {cha}\n
+  motivation: {motivation}\n
+  flaw: {flaw}\n
+  look: {look}"
 }

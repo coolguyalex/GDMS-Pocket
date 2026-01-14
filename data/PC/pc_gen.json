@@ -1,0 +1,21 @@
+{
+  "type": "recipe",
+  "version": 1,
+  "title": "PC_gen",
+  "parts": [
+    { "label": "name", "roll": "names/names.csv" },
+    { "label": "con", "roll": "/dice/3d6.csv", "p": 1.0 },
+    {"label": "str", "roll": "/dice/3d6.csv", "p": 1.0 },
+    { "label": "dex", "roll": "/dice/3d6.csv", "p": 1.0 },
+    { "label": "wis", "roll": "/dice/3d6.csv", "p": 1.0 },
+    { "label": "int", "roll": "/dice/3d6.csv", "p": 1.0 },
+    { "label": "cha", "roll": "/dice/3d6.csv", "p": 1.0 },
+    { "label": "ancestry", "roll": "ancestry.csv" },
+    { "label": "background", "roll": "class.csv" }
+  ],
+  
+  "format": "{name} \n
+  the {ancestry} {background}\n 
+  CON: {con} STR: {str} DEX: {dex}\n
+  WIS: {wis} INT: {int} CHA: {cha}\n
+}

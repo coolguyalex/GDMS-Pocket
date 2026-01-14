@@ -95,10 +95,10 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 The native arduino language was chosen for it's low RAM cost for high responsivness. 
 
 ### Functionality Summary for POC:
-1. Navigate pages with titles corresponding to folders contained within the root directory.
-2. Display the titles of csv files contained within folders as a list on each page.
-3. Allow users to select which entry they would like to "Roll" on
-4. "Roll" a result by randomly selecting an entry from lists contained within csv files.
+1. [X] Navigate pages with titles corresponding to folders contained within the root directory.
+2. [X] Display the titles of csv files contained within folders as a list on each page.
+3. [X] Allow users to select which entry they would like to "Roll" on
+4. [X] "Roll" a result by randomly selecting an entry from lists contained within csv files.
 
 ### Additional Functionality for Future Iterations.
 1. [X] When CSV files contain 2 columns, column 1 is used to provide weights to different results. Otherwise entries have equal weights.
@@ -106,12 +106,13 @@ The native arduino language was chosen for it's low RAM cost for high responsivn
 3. [X]  Interpret JSON files containing "recipes" which chain csv files together to create more complex generators.
 4. [X] Display the titiles of JSONS along side simple csv files (such as in item 2).
 Indicator LED "pops" when selectiosn are made.
-5. Buzzer beeps when user "rolls"
-6. Indicator LED provides "breathing" UI to indicate power state 
-7. Settings menu allowing users to reduce LED brightness, change LED breathing rate, turn off beeps, etc.
-8. 
-9. Allow users to save up to 10 generated items to a "Saved" page. Each saved entry is saved to the SD card and thus creates a new entry in a list.
-10. Allow users to delete saved entries on the "Saved" page
+5. Allow users to save up to 10 generated items to a "Saved" page. Each saved entry is saved to the SD card and thus creates a new entry in a list.
+6. Allow users to delete saved entries on the "Saved" page. 
+7. add a neopixel LED
+8. Buzzer beeps when user "rolls"
+9. Settings menu allowing users to reduce LED brightness, change LED breathing rate, change pitch and volume of beeps, etc.
+10. Indicator LED provides "breathing" UI to indicate power state 
+
 
 ### Cwazy functionality
 1. Random Mode - randomizes your randomization. user hits RANDOM and a random entry appears
