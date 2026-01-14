@@ -3,7 +3,7 @@
   "version": 1,
   "title": "npc_gen",
   "parts": [
-    { "label": "name", "roll": "names.csv" },
+    { "label": "name", "roll": "/Nmes/all.csv" },
     { "label": "personality", "roll": "personalities.csv" },
     { "label": "occupation", "roll": "jobs.csv" },
     { "label": "con", "roll": "3d6.csv", "p": 1.0 },
