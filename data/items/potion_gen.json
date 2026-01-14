@@ -1,0 +1,10 @@
+{
+  "type": "recipe",
+  "version": 1,
+  "title": "potion_gen",
+  "parts": [
+    { "label": "magnitude", "roll": "_potionsMagnitude.csv" },
+    { "label": "potionType", "roll": "_potionsType.csv" },
+  ],
+  "format": "{magnitude} potion of {potionType} potion"
+}
