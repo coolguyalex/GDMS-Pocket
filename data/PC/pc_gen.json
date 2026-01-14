@@ -3,7 +3,7 @@
   "version": 1,
   "title": "PC_gen",
   "parts": [
-    { "label": "name", "roll": "names/names.csv" },
+    { "label": "name", "roll": "/names/allNames.csv" },
     { "label": "con", "roll": "/dice/3d6.csv"},
     { "label": "str", "roll": "/dice/3d6.csv"},
     { "label": "dex", "roll": "/dice/3d6.csv"},
@@ -16,4 +16,4 @@
   ],
 
   "format": "{name}\nthe {ancestry} {background}\nCON: {con} STR: {str} DEX: {dex}\nWIS: {wis} INT: {int} CHA: {cha}\n{gear}"
-
+}
