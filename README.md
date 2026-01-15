@@ -56,6 +56,7 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 
 
 ### Possible future components 
+- TO5100 : charging 
 - ESP32
 - SHARP memory LCD 200 x 400
 
