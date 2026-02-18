@@ -23,14 +23,14 @@
 // Buttons (active-low, INPUT_PULLUP). Wired pin -> GND
 // Up=A2, Down=A3, A=A1, B=A0
 enum BtnId : uint8_t { BTN_A = 0, BTN_B = 1, BTN_UP = 2, BTN_DOWN = 3 };
-const uint8_t BTN_PINS[4]  = { A1, A0, A2, A3 };
+const uint8_t BTN_PINS[4]  = { A3, 24, A1, A2 };
 const char*   BTN_NAMES[4] = { "A(A1)", "B(A0)", "UP(A2)", "DN(A3)" };
 
 // Buzzer signal on D5 (passive buzzer module)
-const uint8_t BUZZER_PIN = 5;
+const uint8_t BUZZER_PIN = 6;
 
 // External LED on D24 (anode via resistor -> D24, cathode -> GND)
-const uint8_t LED_PIN = 24;
+const uint8_t LED_PIN = 25;
 
 // OLED (software SPI) pin mapping per Log8:
 // SCL/CLK=D13, SDA/DATA=D12, DC=D11, CS=D10, RST=D9
@@ -44,7 +44,7 @@ const uint8_t OLED_RST = 9;
 // Page-buffer constructor (lighter RAM). You can switch to _F_ later if desired.
 // NOTE: If you see a 32px wrap/shift, apply the U8g2 SH1107 x_offset patch described in Log8.
 U8G2_SH1107_128X128_1_4W_SW_SPI u8g2(
-  U8G2_R2,
+  U8G2_R0,
   /* clock=*/ OLED_CLK,
   /* data=*/  OLED_DAT,
   /* cs=*/    OLED_CS,
