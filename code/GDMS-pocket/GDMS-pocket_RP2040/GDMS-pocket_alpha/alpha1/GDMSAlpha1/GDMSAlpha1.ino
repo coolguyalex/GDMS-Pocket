@@ -24,7 +24,7 @@
 // Up=A2, Down=A3, A=A1, B=A0
 enum BtnId : uint8_t { BTN_A = 0, BTN_B = 1, BTN_UP = 2, BTN_DOWN = 3 };
 const uint8_t BTN_PINS[4]  = { A3, 24, A1, A2 };
-const char*   BTN_NAMES[4] = { "A(A1)", "B(A0)", "UP(A2)", "DN(A3)" };
+const char*   BTN_NAMES[4] = { "A(A3)", "B(24)", "UP(A1)", "DN(A2)" };
 
 // Buzzer signal on D5 (passive buzzer module)
 const uint8_t BUZZER_PIN = 6;
@@ -65,14 +65,18 @@ bool ledBlinkOn = false;
 uint32_t ledOffMs = 0;
 
 // =================== NON-BLOCKING BUZZER ===================
+
+bool buzzerEnabled = true; //master switch (to be made otggleable in options menu sousa260228)
 bool buzOn = false;
 uint32_t buzOffMs = 0;
 
 void buzzerStart(uint16_t freq, uint16_t durMs) {
+  if (!buzzerEnabled) return;   // <-- add this line
   tone(BUZZER_PIN, freq);
   buzOn = true;
   buzOffMs = millis() + durMs;
 }
+
 void buzzerUpdate(uint32_t now) {
   if (buzOn && (int32_t)(now - buzOffMs) >= 0) {
     noTone(BUZZER_PIN);
@@ -100,7 +104,7 @@ uint8_t fileCount = 0;
 int16_t fileCursor = 0;
 int16_t fileScrollTop = 0;
 
-enum UiMode : uint8_t { MODE_CATS = 0, MODE_FILES = 1, MODE_TABLE = 2 };
+enum UiMode : uint8_t { MODE_CATS = 0, MODE_FILES = 1, MODE_TABLE = 2, MODE_SETTINGS = 3 };
 UiMode mode = MODE_CATS;
 
 String selectedCat;
@@ -115,16 +119,6 @@ uint32_t lastInputMs = 0;
 uint32_t lastOledMs = 0;
 const uint16_t OLED_PERIOD_MS = 90;
 const uint16_t OLED_IDLE_AFTER_MS = 0;
-
-// ---------- helpers ----------
-// static inline String stripCsvExt(const String& s) {
-//   if (s.length() >= 4) {
-//     String tail = s.substring(s.length() - 4);
-//     tail.toLowerCase();
-//     if (tail == ".csv") return s.substring(0, s.length() - 4);
-//   }
-//   return s;
-// }
 
 void showSplashScreen(uint16_t ms = 2000) {
   const uint32_t t0 = millis();
@@ -206,17 +200,10 @@ static void drawHeader(const String& title, int currentIndexZeroBased = -1, int 
   const int y = 15;   // baseline for header text
   u8g2.drawStr(0, y, title.c_str());
 
-  if (totalCount > 0 && currentIndexZeroBased >= 0) {
-    int pos = currentIndexZeroBased + 1;
-    if (pos < 1) pos = 1;
-    if (pos > totalCount) pos = totalCount;
-
-    char buf[16];
-    snprintf(buf, sizeof(buf), "%d/%d", pos, totalCount);
-
-    int textW = u8g2.getStrWidth(buf);
-    u8g2.drawStr(W - textW, y, buf);
-  }
+  // --- Static BAT label (temporary battery placeholder) ---
+  const char* batLabel = "BAT";
+  int textW = u8g2.getStrWidth(batLabel);
+  u8g2.drawStr(W - textW, y, batLabel);
 
   // Divider just under header
   u8g2.drawHLine(0, 20, 128);
@@ -810,9 +797,25 @@ void drawTable() {
   } while (u8g2.nextPage());
 }
 
+void drawSettings() {
+  u8g2.firstPage();
+  do {
+    drawHeader("Settings");
+
+    u8g2.setFont(u8g2_font_6x12_tf);
+
+    u8g2.drawStr(0, 40, "Buzzer:");
+    u8g2.drawStr(70, 40, buzzerEnabled ? "ON" : "OFF");
+
+    u8g2.drawStr(0, 70, "A = Toggle");
+    u8g2.drawStr(0, 90, "B = Back");
+  } while (u8g2.nextPage());
+}
+
 void uiRedraw() {
   if (mode == MODE_CATS) drawCategories();
   else if (mode == MODE_FILES) drawFiles();
+  else if (mode == MODE_SETTINGS) drawSettings();
   else drawTable();
 }
 
@@ -840,7 +843,7 @@ void onButtonPressed(BtnId b) {
         mode = MODE_FILES;
       }
     } else if (b == BTN_B) {
-      // no-op at top level
+    mode = MODE_SETTINGS;
     }
   } else if (mode == MODE_FILES) {
     if (b == BTN_UP) fileCursor--;
@@ -906,8 +909,14 @@ void onButtonPressed(BtnId b) {
     } else if (b == BTN_B) {
       mode = MODE_FILES;
     }
+  } else if (mode == MODE_SETTINGS) {
+    if (b == BTN_A) {
+      buzzerEnabled = !buzzerEnabled;
+    }
+    else if (b == BTN_B) {
+      mode = MODE_CATS;
+    }
   }
-
   uiRedraw();
 }
 

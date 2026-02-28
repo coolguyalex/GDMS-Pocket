@@ -91,10 +91,10 @@ Buttons are wired **pin → GND**.
 
 | Button | Pin |
 |------|----|
-| Up | A2 |
-| Down | A3 |
-| A | A1 |
-| B | A0 |
+| Up | A1 |
+| Down | A2 |
+| A | A3 |
+| B | 24 |
 
 ### Buzzer
 - Passive buzzer
