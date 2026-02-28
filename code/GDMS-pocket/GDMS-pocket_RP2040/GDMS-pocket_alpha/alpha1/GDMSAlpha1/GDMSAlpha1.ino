@@ -66,7 +66,7 @@ uint32_t ledOffMs = 0;
 
 // =================== NON-BLOCKING BUZZER ===================
 
-bool buzzerEnabled = true; //master switch (to be made otggleable in options menu sousa260228)
+bool buzzerEnabled = false; //master switch (to be made otggleable in options menu sousa260228)
 bool buzOn = false;
 uint32_t buzOffMs = 0;
 
@@ -104,7 +104,7 @@ uint8_t fileCount = 0;
 int16_t fileCursor = 0;
 int16_t fileScrollTop = 0;
 
-enum UiMode : uint8_t { MODE_CATS = 0, MODE_FILES = 1, MODE_TABLE = 2, MODE_SETTINGS = 3 };
+enum UiMode : uint8_t { MODE_CATS = 0, MODE_FILES = 1, MODE_TABLE = 2 };
 UiMode mode = MODE_CATS;
 
 String selectedCat;
@@ -119,6 +119,16 @@ uint32_t lastInputMs = 0;
 uint32_t lastOledMs = 0;
 const uint16_t OLED_PERIOD_MS = 90;
 const uint16_t OLED_IDLE_AFTER_MS = 0;
+
+// ---------- helpers ----------
+// static inline String stripCsvExt(const String& s) {
+//   if (s.length() >= 4) {
+//     String tail = s.substring(s.length() - 4);
+//     tail.toLowerCase();
+//     if (tail == ".csv") return s.substring(0, s.length() - 4);
+//   }
+//   return s;
+// }
 
 void showSplashScreen(uint16_t ms = 2000) {
   const uint32_t t0 = millis();
@@ -797,25 +807,9 @@ void drawTable() {
   } while (u8g2.nextPage());
 }
 
-void drawSettings() {
-  u8g2.firstPage();
-  do {
-    drawHeader("Settings");
-
-    u8g2.setFont(u8g2_font_6x12_tf);
-
-    u8g2.drawStr(0, 40, "Buzzer:");
-    u8g2.drawStr(70, 40, buzzerEnabled ? "ON" : "OFF");
-
-    u8g2.drawStr(0, 70, "A = Toggle");
-    u8g2.drawStr(0, 90, "B = Back");
-  } while (u8g2.nextPage());
-}
-
 void uiRedraw() {
   if (mode == MODE_CATS) drawCategories();
   else if (mode == MODE_FILES) drawFiles();
-  else if (mode == MODE_SETTINGS) drawSettings();
   else drawTable();
 }
 
@@ -843,7 +837,7 @@ void onButtonPressed(BtnId b) {
         mode = MODE_FILES;
       }
     } else if (b == BTN_B) {
-    mode = MODE_SETTINGS;
+      // no-op at top level
     }
   } else if (mode == MODE_FILES) {
     if (b == BTN_UP) fileCursor--;
@@ -909,14 +903,8 @@ void onButtonPressed(BtnId b) {
     } else if (b == BTN_B) {
       mode = MODE_FILES;
     }
-  } else if (mode == MODE_SETTINGS) {
-    if (b == BTN_A) {
-      buzzerEnabled = !buzzerEnabled;
-    }
-    else if (b == BTN_B) {
-      mode = MODE_CATS;
-    }
   }
+
   uiRedraw();
 }
 
