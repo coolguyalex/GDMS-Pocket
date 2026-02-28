@@ -1,0 +1,12 @@
+{
+  "type": "recipe",
+  "version": 1,
+  "title": "Prompt",
+  "parts": [
+    { "label": "verb", "roll": "/GM/_adventureVerb.csv" },
+    { "label": "noun", "roll": "/GM/_adventureNoun.csv" },
+    { "label": "descriptor", "roll": "/GM/_adventureDescriptor.csv" }
+  ],
+
+  "format": "{verb} {noun} {descriptor}"
+}

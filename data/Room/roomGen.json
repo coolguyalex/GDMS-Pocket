@@ -1,0 +1,11 @@
+{
+  "type": "gdms_recipe",
+  "version": 1,
+  "title": "roomGen",
+  "steps": [
+    { "label": "size",  "table": "size.csv"},
+    { "label": "shape", "table": "shape.csv" },
+    { "label": "grafitti",  "table": "grafitti.csv", "p": 0.25 }
+  ], 
+  "format": "{size} {ancestry} /n "On the wall: {grafitti}"
+}

@@ -1,0 +1,11 @@
+{
+  "type": "recipe",
+  "version": 1,
+  "title": "2d20",
+  "parts": [
+    { "label": "1std20", "roll": "d20.csv" },
+    { "label": "2ndd20", "roll": "d20.csv"}
+  ],
+
+  "format": "{1std20} {2ndd20}"
+}

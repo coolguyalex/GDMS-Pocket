@@ -1,0 +1,12 @@
+{
+  "type": "recipe",
+  "version": 1,
+  "title": "3d6",
+  "parts": [
+    { "label": "1std6", "roll": "d6.csv" },
+    { "label": "2ndd6", "roll": "d6.csv"},
+    { "label": "3rdd6", "roll": "d6.csv"}
+  ],
+
+  "format": "{1std6} {2ndd6} {3rdd6}"
+}

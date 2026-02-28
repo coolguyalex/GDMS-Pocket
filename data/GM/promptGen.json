@@ -1,0 +1,11 @@
+{
+  "type": "recipe",
+  "version": 1,
+  "title": "Prompt",
+  "parts": [
+    { "label": "verb", "roll": "/GM/_promptVerb.csv" },
+    { "label": "noun", "roll": "/GM/_promptNoun.csv" }
+  ],
+
+  "format": "{verb} {noun}"
+}

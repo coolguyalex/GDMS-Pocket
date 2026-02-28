@@ -3,7 +3,7 @@
   "version": 1,
   "title": "PC_gen",
   "parts": [
-    { "label": "name", "roll": "/names/allNames.csv" },
+    { "label": "name", "roll": "/names/nicknames.csv" },
     { "label": "con", "roll": "/dice/3d6.csv"},
     { "label": "str", "roll": "/dice/3d6.csv"},
     { "label": "dex", "roll": "/dice/3d6.csv"},

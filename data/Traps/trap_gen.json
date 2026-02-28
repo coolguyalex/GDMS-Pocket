@@ -1,0 +1,11 @@
+{
+  "type": "recipe",
+  "version": 1,
+  "title": "trap+gen",
+  "parts": [
+    { "label": "type", "roll": "type.csv" },
+    { "label": "trigger", "roll": "trigger.csv" },
+    { "label": "damage", "roll": "damage.csv" }
+  ],
+  "format": "{type} \n {trigger} {damage}"
+}

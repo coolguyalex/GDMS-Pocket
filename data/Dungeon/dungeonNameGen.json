@@ -1,0 +1,12 @@
+{
+  "type": "recipe",
+  "version": 1,
+  "title": "PC_gen",
+  "parts": [
+    { "label": "place", "roll": "place.csv" },
+    { "label": "descriptor", "roll": "descriptor.csv"},
+    { "label": "thing", "roll": "thing.csv"}
+  ],
+
+  "format": "{place} {descriptor} {thing}"
+}

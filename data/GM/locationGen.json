@@ -1,0 +1,12 @@
+{
+  "type": "recipe",
+  "version": 1,
+  "title": "siteGen",
+  "parts": [
+    { "label": "place", "roll": "/GM/_sitePlace.csv" },
+    { "label": "adjective", "roll": "/GM/_siteAdjective.csv" },
+    { "label": "noun", "roll": "/GM/_siteNoun.csv" }
+  ],
+
+  "format": "{place} {adjective} {noun}"
+}
