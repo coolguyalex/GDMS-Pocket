@@ -1,7 +1,7 @@
 /*
-  POC_V04_SPI128x128_SH1107.ino
+  GDMS-p_Alpha_V1.ino
 
-  Rewrite of POC_V04 for:
+  
   - Feather RP2040 Adalogger
   - 1.5" SH1107 128x128 OLED (SPI) via U8g2
   - SD card via SdFat on SPI1 (OLED uses SW SPI to avoid conflicts)

@@ -1,22 +1,70 @@
 # GDMS:Pocket
-Goblindoid Dungeon Mastering System for microcontroller-based handheld.
+**Goblinoid Dungeon Mastering System** — microcontroller-based handheld random table roller for tabletop RPGs.
 
-## Concept: 
-Dungeon master's companion designed for ease of use and customization. 
-GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that last minute name or encounter when called upon but staying out of the limelight and keeping you engaged with the game.
+---
 
-## future ideas 
-- add a little icon to be displayed for each of the pages
-- Add an idicator LED (breath for on status), pop for button pushes.
-- Add a beep indicator via passive buzzer (different tones for higher or lower results on tables)
+## Concept
 
-## Hardware: 
+A dungeon master's companion designed to stay out of the way until you need it. Pull it out, roll a name, an encounter, a room, or whatever your table demands, then put it back in your pocket. GDMS:Pocket is designed to be as ignorable as it is useful — no app, no screen glare, no dead battery notification from your phone mid-session.
 
-## Pin Mapping (Feather RP2040 Adalogger)
+Content lives on a microSD card as plain CSV files and JSON recipe files. Adding, removing, or editing tables requires nothing more than a computer and a text editor.
 
-### OLED Display (SH1107, Software SPI)
+---
+
+## Current Firmware: Alpha 9
+
+### Implemented Features
+
+- Navigate categories corresponding to folders on the SD card
+- Browse and select CSV tables or JSON recipe generators within each category
+- Roll a random result with a single button press; re-roll instantly with the same button
+- Scroll long results that exceed the screen height
+- Hold UP/DOWN for fast scrolling through lists
+- LED breathing animation indicates power-on state
+- LED "pop" flash on every button press
+- Passive buzzer feedback — distinct tones per button
+- Full options menu (A+B combo from any screen):
+  - Buzzer on/off and volume (loud/soft)
+  - LED on/off, pop on/off, brightness (low/med/high)
+  - Breath speed (fast/med/slow)
+  - Sleep timeout (5 min / 10 min / 30 min / never)
+- Settings persist to SD card (`/DATA/settings.cfg`) and reload on boot
+- Sleep mode: display blanks after inactivity timeout; any button wakes it
+- Live battery voltage indicator in the header — 3-bar icon with critical flash
+- Header titles truncated with `...` if they would overlap the battery icon
+- Startup splash screen (2 seconds on boot)
+- About screen with control reference
+
+### JSON Recipe System (V1)
+
+JSON files in a category folder act as multi-part generators. A recipe chains together rolls from multiple CSV tables and assembles them into a single composed output. Features include optional parts (probability `p`), repeat counts, cross-category table references, and a `format` string for custom output layouts. See **Content & Customisation** below and the recipe convention document in the repo for full details.
+
+### CSV Weighted Tables
+
+If a CSV file uses two columns — `weight,entry` — the first column is treated as an integer weight and results are sampled proportionally. Single-column CSVs treat all entries as equally likely. Lines beginning with `#` or `//` are treated as comments and skipped.
+
+---
+
+## Hardware
+
+### Bill of Materials
+
+| Component | Description |
+|-----------|-------------|
+| Adafruit Feather RP2040 Adalogger | MCU + built-in microSD slot |
+| 1.5" SH1107 OLED (SPI, 128×128) | Display |
+| 4× momentary pushbutton | Navigation (active-low) |
+| Passive buzzer module (3-pin) | Audio feedback |
+| LED + current-limiting resistor | Status indicator |
+| 3.7V LiPo battery (JST connector) | Power |
+| 2× 100kΩ resistor | Battery voltage divider |
+
+### Pin Mapping
+
+#### OLED Display (SH1107, Software SPI)
+
 | OLED Pin | Feather Pin |
-|-----|-----|
+|----------|-------------|
 | VCC | 3V3 |
 | GND | GND |
 | SCL (CLK) | D13 |
@@ -25,160 +73,142 @@ GDMS-pocket is designed to be as ifnoranle as it is helpful - providing that las
 | CS | D10 |
 | RST | D9 |
 
-### Buttons (Active-Low, Using Internal Pull-Ups)
-| Button | Feather Pin |
-|-------|-------------|
-| Up | A2 |
-| Down | A3 |
-| A | A1 |
-| B | A0 |
+> **Library patch required:** The U8g2 SH1107 128×128 driver sets `default_x_offset = 96` by default, which causes a 32px horizontal wrap on some panels. Set both `default_x_offset` and `flipmode_x_offset` to `0` in `u8x8_d_sh1107.c`. This must be re-applied after any U8g2 library update. See Log 8 for full details.
 
-### Buzzer (Passive)
+#### Buttons (Active-Low, Internal Pull-Up)
+
+| Button | Feather Pin |
+|--------|-------------|
+| UP | A1 |
+| DOWN | A2 |
+| A (select / roll) | A3 |
+| B (back) | 24 |
+
+Buttons are wired pin → GND. No external pull-up resistors needed.
+
+#### Buzzer (Passive, PWM)
+
 | Signal | Feather Pin |
 |--------|-------------|
-| SIG | D5 |
+| SIG | D6 |
 | VCC | 3V3 |
 | GND | GND |
 
-### LED
-| LED Connection | Feather Pin |
-|---------------|-------------|
-| Anode (via resistor) | D24 |
+> A series resistor (~1kΩ) on the signal line is recommended to reduce volume to a comfortable level for table use.
+
+#### LED
+
+| Connection | Feather Pin |
+|------------|-------------|
+| Anode (via resistor) | D25 |
 | Cathode | GND |
 
-### Component Information Table
-| Component ID | Sensor Name             | Operational Voltage | Data Type | I²C address | Notes                      |
-|--------------|-------------------------|---------------------|-----------|-------------|----------|
-|RP2040 Adalogger|                       |3.3-5                |           |             | built in SD - See MCU table in logs and documentation|
-| SSD1306   | 0.96" OLED Display         | 3.3-5               | Digital   | 0x3C    |                              |
-| SH1107    | 1.5" 128 x 128 OLED display| 3.3                 | Digital   |NA - SPI|Modified library default_x_offset|
-| WWZMDiB   | SD TF Card Adapter Reader Module                 | 3.3-5 |   |NA - SPI|                                 |
+> Do not use `PIN_LED` as a variable name — it is defined as a macro in the RP2040 Arduino core.
 
+#### Battery Voltage Divider
 
-### Possible future components 
-- TO5100 : charging 
-- ESP32
-- SHARP memory LCD 200 x 400
+The Feather RP2040 Adalogger does not have a built-in battery monitor circuit. An external voltage divider must be wired as follows:
 
+```
+VBAT ──[ 100kΩ ]──┬──[ 100kΩ ]── GND
+                  │
+                  └── A0
+```
 
-### Wiring: 
+| Signal | Feather Pin |
+|--------|-------------|
+| Divider center tap | A0 |
 
-#### Buttons
-| Button | Right Pin | Left Pin| 
-|---|---|---|
-| Up | GND | D9 |
-| Down | GND | D10 |
-| A | GND | D5 |
-| B | GND | D6 |
+The firmware reads A0, multiplies by 2, and displays a 3-bar battery icon in the header. Voltage thresholds: FULL ≥4.0V, OK ≥3.7V, LOW ≥3.5V, CRIT <3.5V (flashing).
 
-#### OLED SSD1306 
-| SSD1306 Pin | Board Pin |
-|-------------|-----------|
-| GND | GND |
-| VCC | 3v3 |
-| SCL | A5 |
-| SDA | A4 |
+### SD Card
 
-#### WWZMDiB SD Card reader
-| SSD1306 Pin SD Card Reader | Board Pin |
-|-------------|-----------|
-| CS          | D5        |
-| SCK         | D13       |
-| MOSI        | D11       |
-| MISO        | D12       |
-| VCC         | 3v3       |
-| GND         | GND       |
+The Adalogger's built-in microSD slot is used via SdFat (Adafruit fork) on SPI1. Format the card as FAT32.
 
+---
+
+## SD Card Data Structure
+
+```
+/DATA/
+  /category-name/
+    table.csv
+    generator.json
+    _hidden-ingredient.csv
+  /another-category/
+    ...
+  settings.cfg          ← written automatically by firmware
+```
+
+- `/DATA` is the root content directory. It must exist.
+- Each immediate subfolder of `/DATA` becomes a navigable category in the UI.
+- Folders nested deeper than one level are ignored.
+- `.csv` and `.json` files within a category folder appear as selectable items.
+- Files whose names begin with `_` are hidden from the UI but accessible to JSON recipes.
+- `settings.cfg` is written automatically and should not be edited manually.
+
+---
 
 ## Software
 
-### Language Choice
-The native arduino language was chosen for it's low RAM cost for high responsivness. 
+### Language & Framework
 
-### Functionality Summary for POC:
-1. [X] Navigate pages with titles corresponding to folders contained within the root directory.
-2. [X] Display the titles of csv files contained within folders as a list on each page.
-3. [X] Allow users to select which entry they would like to "Roll" on
-4. [X] "Roll" a result by randomly selecting an entry from lists contained within csv files.
+Arduino (C++) targeting the Adafruit Feather RP2040 Adalogger via the Arduino-Pico core.
 
-### Additional Functionality for Future Iterations.
-1. [X] When CSV files contain 2 columns, column 1 is used to provide weights to different results. Otherwise entries have equal weights.
-2. [X] "About" menu displaying controls and how, why, when, and by whom GDMS was made. User manual available on website. 
-3. [X]  Interpret JSON files containing "recipes" which chain csv files together to create more complex generators.
-4. [X] Display the titiles of JSONS along side simple csv files (such as in item 2).
-Indicator LED "pops" when selectiosn are made.
-5. Allow users to save up to 10 generated items to a "Saved" page. Each saved entry is saved to the SD card and thus creates a new entry in a list.
-6. Allow users to delete saved entries on the "Saved" page. 
-7. add a neopixel LED
-8. Buzzer beeps when user "rolls"
-9. Settings menu allowing users to reduce LED brightness, change LED breathing rate, change pitch and volume of beeps, etc.
-10. Indicator LED provides "breathing" UI to indicate power state 
+### Library Dependencies
 
+| Library | Purpose |
+|---------|---------|
+| U8g2 (olikraus) | OLED driver and graphics |
+| SdFat – Adafruit Fork | microSD access |
+| ArduinoJson | JSON recipe parsing |
 
-### Cwazy functionality
-1. Random Mode - randomizes your randomization. user hits RANDOM and a random entry appears
-2. Ambient Mode - randomly generates entries every 10 seconds for 2 minutes. 
-3. Music mode. Generative ambient. 
+### Controls Reference
 
-### important usability features
-- long folder names truncated to prevent header wrapping and overwriting content beloe. 
-- screen scrolling when reading an entry allows for entries longer than 6 rows 
-- entry file extensions stripped to sabe space and preserve readability 
-- 
+| Button | Category / File list | Table / Result view | Options menu |
+|--------|---------------------|---------------------|--------------|
+| UP | Scroll up | Scroll up | Previous option |
+| DOWN | Scroll down | Scroll down | Next option |
+| A | Select / enter | Re-roll | Cycle setting value |
+| B | — (no-op at root) | Back to file list | Back |
+| A + B (held) | Open options | Open options | — |
 
-### Folder and Data Structure
-- Data directory: Folders are all held in a main directory named: "Data"
-- Page directory: Each folder's name within the data directory will be used to generate the titles at the top of the pages in the interface. e.g. "names", "dice", "encounters". 
+### Architecture Notes
 
+- State machine with five modes: `MODE_CATS`, `MODE_FILES`, `MODE_TABLE`, `MODE_OPTIONS`, `MODE_ABOUT`
+- Page-buffer OLED rendering (`_1_` constructor) — redraws on input events only, with a periodic background refresh for animation (LED breath, battery icon flash)
+- Non-blocking LED and buzzer using `millis()` timers throughout
+- Battery sampled every 5 seconds via a non-blocking timer; 8-sample average
+- All user settings persisted to `/DATA/settings.cfg` as key=value text immediately on change
 
-### Library Table
-| Relevant Device | Library Names | Include call | Author | Desciption |
-|-----------------|---------------|--------------|--------|------------|
-| IIC devices | Wire | <Wire.h> | Arduino ? | used for IIC work |
-| SSD1306 OLED | Adafruit SSD1306 | <Adafruit_SSD1306.h> |  Adafruit | OLED driver library for small screens | 
-| SSD1306 OLED | Adafruit GFX library | <Adafruit_GFX.h> | Adafruit | core graphics library for Adafruit displays| 
-| SSD1306 OLED | U8g2 |  | olikraus | SSD1306 screen library with smaller RAM footprint for many sensors | 
-| RP2040 Adalogger | SdFat - Adafruit Fork | | Adafruit | Enables reading Fat formatted SD cards via Adalogger built in SD card module|
+---
 
+## Planned / Future Features
 
-## AI generated Description
+- Per-category icons (`_icon.bin`, 32×32 1-bit bitmap) rendered in the header
+- Saved results — up to 10 entries written to SD, browsable on a Saved page
+- Nested JSON recipes (recipes invoking other recipes)
+- Ambient mode — auto-rolls at a set interval for generative table atmosphere
+- Neopixel indicator
+- Battery voltage shown in the About screen
+- Migration from `StaticJsonDocument` to `JsonDocument` (ArduinoJson v7 alignment)
 
-Functional Specification: SD-Based Random Table System (POC)
+---
 
-### Overview
-The system is a microcontroller-based Dungeon Master aid that reads plain text data from an SD card and displays randomly selected entries on a small screen. All interaction is driven by a simple category-based interface. The system runs on a adafruit RP2040 Adalogger feather. UI is provided by a 0.96" SSD1306 OLED using IIC, 4 buttons, an LED, and passive buzzer. 
+## Changelog
 
-### Data Layout
-- The SD card contains a top-level directory named /DATA.
-- Inside /DATA, users may create one-level-deep category folders.
-    - Folder names define category/page names in the UI.
-    - No nested folders beyond this level are supported.
-- Each category folder contains .csv files only.
-- Each .csv file represents a random table with one entry per line.
+| Version | Summary |
+|---------|---------|
+| Alpha 9 | Battery voltage icon in header, header truncation, stale pin comment fixed |
+| Alpha 8 | Scrollbar on category list, additional LED options |
+| Alpha 7 | Sleep/wake, scrollbar in table view, About screen in options |
+| Alpha 6 | A+B combo options menu |
+| Alpha 5 | LED breathing and pop animations |
+| Alpha 4 | List scrolling |
+| Alpha 3 | Hold-to-scroll on UP/DOWN |
+| Alpha 2 | Word-aware line wrapping |
+| Alpha 1 | Initial SH1107 bring-up, pin map, full hardware test |
 
-Example:
-    /DATA
-        /NPC
-            names.csv
-            flaws.csv
-        /DICE
-            d20.csv
-            d100.csv
+---
 
-### Startup / Discovery
-- On boot (or user-triggered rescan), the system:
-    1. Enumerates all immediate subfolders of /DATA.
-    2. Stores their names as available Categories.
-- No recursive directory traversal is performed beyond this level.
-
-### UI Behavior
-- Each Category corresponds to one folder under /DATA.
-- When a Category is selected:
-    - The system lists all .txt files in that folder.
-- The user scrolls and selects a file.
-- Upon selection:
-    - The system reads the file and displays one randomly selected line.
-
-
-
-
+*GDMS:Pocket by Alexander Sousa, 2026*
