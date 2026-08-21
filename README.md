@@ -59,6 +59,23 @@ If a CSV file uses two columns — `weight,entry` — the first column is treate
 | 3.7V LiPo battery (JST connector) | Power |
 | 2× 100kΩ resistor | Battery voltage divider |
 
+
+### BOM with cost estimates
+|Component                                |Price     |Source                                |
+|-----------------------------------------|----------|--------------------------------------|
+|Adafruit Feather RP2040 Adalogger        |$14.95    |Adafruit / DigiKey, retail single unit|
+|1.5” SH1107 128×128 monochrome OLED (SPI)|$4.50     |AliExpress, bulk 10-pack pricing      |
+|Momentary pushbuttons ×4                 |$0.60     |AliExpress, bulk 100pc pack           |
+|Passive buzzer module                    |$0.35     |AliExpress, bulk pack                 |
+|LED + resistor                           |$0.10     |AliExpress, bulk pack                 |
+|3.7V LiPo battery w/ JST                 |$2.50     |AliExpress, bulk pack                 |
+|100kΩ resistors ×2                       |$0.02     |AliExpress, bulk reel                 |
+|Slide switch                             |$0.30     |AliExpress, bulk pack                 |
+|Custom PCB, bare board (10-unit batch)   |$1.50     |PCBWay                                |
+|3D printed PETG enclosure                |$3.00     |Self-sourced filament                 |
+|Misc wire/headers/hardware               |$1.00     |AliExpress, bulk pack                 |
+|**Total**                                |**$28.82**|                                      |
+
 ### Pin Mapping
 
 #### OLED Display (SH1107, Software SPI)
