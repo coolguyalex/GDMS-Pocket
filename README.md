@@ -202,6 +202,7 @@ Arduino (C++) targeting the Adafruit Feather RP2040 Adalogger via the Arduino-Pi
 
 ## Planned / Future Features
 
+- Auto-mode: a dearf-fortressian ambient atory generatir where randomyl generated entires drive a strange atory which unfolds before the reader. 
 - Per-category icons (`_icon.bin`, 32×32 1-bit bitmap) rendered in the header
 - Saved results — up to 10 entries written to SD, browsable on a Saved page
 - Nested JSON recipes (recipes invoking other recipes)
