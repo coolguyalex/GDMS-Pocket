@@ -210,6 +210,39 @@ Arduino (C++) targeting the Adafruit Feather RP2040 Adalogger via the Arduino-Pi
 - Neopixel indicator
 - Battery voltage shown in the About screen
 - Migration from `StaticJsonDocument` to `JsonDocument` (ArduinoJson v7 alignment)
+- **GDMS-pocket Companion App** — desktop tool for content authoring, generation, and firmware flashing (see below)
+
+---
+
+## GDMS-pocket Companion App (Planned)
+
+A desktop companion tool for authoring and managing GDMS:Pocket content, shipped alongside the device rather than as a separate purchase. Not yet implemented — this section documents the intended design and open questions.
+
+### Concept
+
+The device already has a **Data Edit Mode** (its default mode today, in the sense that all content lives as plain files on the SD card) — the companion app is meant to make that workflow faster and more powerful than pulling the card and editing text files by hand. Rather than being a separate product, it's intended to feel like an extension of GDMS itself: same name family, same visual language, same spirit of staying out of the way until needed.
+
+### Aesthetic
+
+Black-on-green CLI-style interface, matching the terminal look of the original [GDMS](https://github.com/coolguyalex/GDMS) desktop tool. Navigation is entirely text-based:
+- Keyboard shortcuts for every applet/action
+- Clickable text labels as the mouse-driven alternative — text glows on hover and blinks briefly when clicked, echoing a terminal cursor rather than a conventional button
+
+### Device Detection & Interaction
+
+Still an open design question — rough intent:
+- When the app is running and a GDMS:Pocket is connected via USB, the device should detect the companion app's presence (likely via a simple serial handshake) and unlock companion-aware functionality on-device, rather than just exposing the SD card as a mass-storage drive.
+- Once connected, the app could:
+  - Browse and directly edit category folders, CSV tables, and JSON recipes on the SD card
+  - Generate new content — e.g. Markov-chain-based text generators trained on existing tables, to bootstrap new CSV entries from a sample of existing ones
+  - Flash new firmware to the device (bundling firmware updates with the same tool used for content, instead of requiring separate Arduino IDE / bootloader steps)
+  - **Chiptune mode** (low priority / just for fun) — compose or import chiptune-style songs and play them back through the device's passive buzzer, in the spirit of [goblinoidDungeonSynthSystem](https://github.com/coolguyalex/goblinoidDungeonSynthSystem)
+
+### Open Questions
+
+- Whether the companion app talks to the device over serial (simplest, reuses the existing USB connection) or presents the SD card as a normal mass-storage drive with the app just being a nicer file editor for it
+- How much of this logic should live in GDMS:Pocket firmware itself (e.g. a lightweight serial command protocol) vs. entirely in the companion app
+- Whether "Data Edit Mode" on the device becomes a distinct on-device mode of its own, or stays implicit (i.e. any time the SD card is out or the device is tethered to the app)
 
 ---
 
